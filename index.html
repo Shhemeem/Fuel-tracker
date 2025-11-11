@@ -72,7 +72,7 @@
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
                     <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.244-4.243a8 8 8 0111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.244-4.243a8 8 0111.314 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                         Current Fuel Price (per Liter)
@@ -175,6 +175,7 @@
                             <th class="px-4 py-3">Amount</th>
                             <th class="px-4 py-3">Liters (L)</th>
                             <th class="px-4 py-3">Mileage (km/L)</th>
+                            <th class="px-4 py-3 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="trip-log-body" class="bg-white divide-y divide-gray-200 text-sm">
@@ -223,6 +224,43 @@
                 </div>
             </div>
         </div>
+        
+        <!-- EDIT TRIP MODAL (New) -->
+        <div id="edit-trip-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden z-50 items-center justify-center p-4">
+            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-lg w-full space-y-5">
+                <h3 class="text-2xl font-bold text-primary border-b pb-2">Edit Trip Entry</h3>
+                <input type="hidden" id="edit-trip-id">
+
+                <div class="space-y-4">
+                    <!-- Date Input -->
+                    <div>
+                        <label for="edit-date" class="block text-sm font-medium text-gray-700">Fuel-up Date</label>
+                        <input type="date" id="edit-date" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                    </div>
+
+                    <!-- Odometer Input -->
+                    <div>
+                        <label for="edit-odo-reading" class="block text-sm font-medium text-gray-700">Odometer Reading (km)</label>
+                        <input type="number" id="edit-odo-reading" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                    </div>
+                    
+                    <!-- Amount Paid Input -->
+                    <div>
+                        <label for="edit-amount-paid" class="block text-sm font-medium text-gray-700">Amount Paid (Currency)</label>
+                        <input type="number" id="edit-amount-paid" step="0.01" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-3">
+                    <button id="cancel-edit-btn" class="py-2 px-4 bg-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-400 transition">
+                        Cancel
+                    </button>
+                    <button id="update-edit-btn" class="py-2 px-4 bg-secondary text-white font-medium rounded-lg shadow-md hover:bg-secondary/90 transition">
+                        Update Trip Log
+                    </button>
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -232,7 +270,6 @@
         const LAST_ODO_KEY = 'mileageTracker_lastOdometer';
         const TRIP_LOG_KEY = 'mileageTracker_tripLog';
         
-        // Global variable to store the native install prompt event
         let deferredPrompt; 
 
         // Mock URL - REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT URL
@@ -275,10 +312,44 @@
             confirmClearModal: document.getElementById('confirm-clear-modal'),
             confirmYesBtn: document.getElementById('confirm-yes-btn'),
             confirmNoBtn: document.getElementById('confirm-no-btn'),
+
+            // NEW: Edit Modal Elements
+            editModal: document.getElementById('edit-trip-modal'),
+            editTripId: document.getElementById('edit-trip-id'),
+            editDate: document.getElementById('edit-date'),
+            editOdo: document.getElementById('edit-odo-reading'),
+            editAmount: document.getElementById('edit-amount-paid'),
+            updateEditBtn: document.getElementById('update-edit-btn'),
+            cancelEditBtn: document.getElementById('cancel-edit-btn'),
         };
+        
+        // --- HELPER FUNCTIONS ---
 
-        // --- UTILITY FUNCTIONS ---
+        /** Utility to retrieve the log and parse it. */
+        function getTripLog() {
+            return JSON.parse(localStorage.getItem(TRIP_LOG_KEY) || '[]');
+        }
 
+        /** Utility to save the log and update the last odometer. */
+        function saveTripLog(log) {
+            // Sort by Odometer ascending, just in case
+            log.sort((a, b) => b.odo - a.odo); 
+            localStorage.setItem(TRIP_LOG_KEY, JSON.stringify(log));
+
+            // Update last Odometer
+            if (log.length > 0) {
+                localStorage.setItem(LAST_ODO_KEY, log[0].odo);
+            } else {
+                localStorage.removeItem(LAST_ODO_KEY);
+            }
+        }
+
+        /** Utility to assign a pseudo-unique ID for local use. */
+        function generateUniqueId() {
+            // Use time plus a random component for a locally unique string
+            return Date.now().toString(36) + Math.random().toString(36).substring(2, 7);
+        }
+        
         /** Shows a custom modal alert. */
         function showAlert(title, message) {
             Elements.alertTitle.textContent = title;
@@ -307,22 +378,20 @@
          */
         function promptInstallGuidance() {
             if (deferredPrompt) {
-                // The browser supports the native installation prompt and we captured the event.
                 deferredPrompt.prompt();
                 
-                // Wait for the user to respond to the prompt
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
                         showAlert("Installation Complete", "The app shortcut has been successfully added to your device!");
                     } else {
                         showAlert("Installation Canceled", "You chose not to install the app.");
                     }
-                    deferredPrompt = null; // Clear the stored prompt after use
+                    deferredPrompt = null; 
                 });
                 return;
             }
 
-            // Fallback: Show manual guidance if native prompt is unavailable/already dismissed
+            // Fallback: Show manual guidance
             const isMobile = /Mobi|Android/i.test(navigator.userAgent);
             let guidance = "The native install prompt is unavailable right now. To install this app, open your browser's main menu (usually 3 dots/lines) and select **'Install app'** or **'Add to Home Screen'**.";
             
@@ -335,7 +404,6 @@
 
         /**
          * Sends trip data to a Google Apps Script Web App for saving to Google Sheets.
-         * NOTE: This is a placeholder function. The user must deploy their own GAS.
          * @param {object} tripData The trip object to send.
          */
         async function sendToGoogleSheets(tripData) {
@@ -345,7 +413,6 @@
             }
 
             try {
-                // Fetch call uses 'no-cors' mode which is required for simple GAS POST requests
                 const response = await fetch(GOOGLE_SHEETS_SCRIPT_URL, {
                     method: 'POST',
                     body: JSON.stringify(tripData),
@@ -353,12 +420,10 @@
                     headers: { 'Content-Type': 'application/json' }
                 });
                 
-                // Since response is opaque in 'no-cors', we rely on the fetch not failing.
                 console.log('Data fetch sent to Google Sheet endpoint.');
                 
             } catch (error) {
                 console.error('Error attempting to send data to Google Sheets:', error);
-                // We proceed even if the sheet save fails, as local storage is the primary persistence
             }
         }
 
@@ -418,11 +483,38 @@
             Elements.litersDisplay.textContent = liters.toFixed(2);
         }
 
+        /** Recalculates all dependent trip data based on the current trip log. */
+        function recalculateTripLog(log) {
+            // Sort log ascending by ODO reading to process chronologically
+            log.sort((a, b) => a.odo - b.odo); 
+
+            for (let i = 0; i < log.length; i++) {
+                const currentTrip = log[i];
+                const prevTrip = log[i - 1];
+                
+                // Recalculate liters (in case price changed, though price is saved globally)
+                const price = parseFloat(localStorage.getItem(FUEL_PRICE_KEY));
+                currentTrip.liters = currentTrip.amount / price;
+
+                if (prevTrip) {
+                    currentTrip.distance = currentTrip.odo - prevTrip.odo;
+                    currentTrip.mileage = currentTrip.distance / currentTrip.liters;
+                } else {
+                    // First trip in the log, no prior data for distance/mileage
+                    currentTrip.distance = 0;
+                    currentTrip.mileage = 0;
+                }
+            }
+            // Sort back to descending order for display
+            log.sort((a, b) => b.odo - a.odo);
+            return log;
+        }
+
         /** Handles the main trip saving and calculation logic. */
         function saveTrip() {
             const currentOdo = parseFloat(Elements.odoReadingInput.value);
             const amountPaid = parseFloat(Elements.amountPaidInput.value);
-            const inputDate = Elements.tripDateInput.value; // Read the date input
+            const inputDate = Elements.tripDateInput.value;
             
             const price = parseFloat(localStorage.getItem(FUEL_PRICE_KEY));
             const lastOdo = parseFloat(localStorage.getItem(LAST_ODO_KEY));
@@ -432,7 +524,7 @@
                 showAlert("Missing Price", "Please save the current fuel price before logging a trip.");
                 return;
             }
-             if (!inputDate) {
+            if (!inputDate) {
                 showAlert("Missing Date", "Please select the fuel-up date.");
                 return;
             }
@@ -464,7 +556,8 @@
 
             // 3. Create Trip Object
             const newTrip = {
-                date: inputDate, // Save date as YYYY-MM-DD string
+                id: generateUniqueId(), // New: Unique ID for editing/deleting
+                date: inputDate, 
                 odo: currentOdo,
                 liters: liters,
                 amount: amountPaid,
@@ -472,39 +565,40 @@
                 mileage: mileage
             };
 
-            // 4. Update Local Storage Log
-            let tripLog = JSON.parse(localStorage.getItem(TRIP_LOG_KEY) || '[]');
-            tripLog.unshift(newTrip); // Add to the beginning
-            localStorage.setItem(TRIP_LOG_KEY, JSON.stringify(tripLog));
+            // 4. Update Local Storage Log (using utility functions)
+            let tripLog = getTripLog();
+            tripLog.push(newTrip); // Push to array
+            saveTripLog(tripLog); // Sorts and saves
 
-            // 5. Update Last Odometer & UI
-            localStorage.setItem(LAST_ODO_KEY, currentOdo);
-            renderInitialState(); // Update last odo display
-            renderTripLog();
-            clearResults(); // Clear inputs
+            // 5. Update UI
+            renderInitialState(); 
+            clearResults(); 
 
             // 6. Display Results
             Elements.resultDistance.textContent = distance.toFixed(0);
             Elements.resultMileage.textContent = mileage.toFixed(2);
-            showAlert("Trip Logged!", `Mileage: ${mileage.toFixed(2)} km/L.`);
+            showAlert("Trip Logged!", `Mileage: ${mileage.toFixed(2)} km/L. Data saved locally and sync attempted.`);
 
             // 7. Send to Google Sheets (Async)
             sendToGoogleSheets(newTrip);
         }
-
+        
         /** Clears the local log and re-renders the table. */
         function renderTripLog() {
-            const tripLog = JSON.parse(localStorage.getItem(TRIP_LOG_KEY) || '[]');
+            const tripLog = getTripLog();
             Elements.tripLogBody.innerHTML = ''; // Clear existing rows
 
             if (tripLog.length === 0) {
                 Elements.noDataMessage.classList.remove('hidden');
+                Elements.resultDistance.textContent = '0';
+                Elements.resultMileage.textContent = '0.00';
+                Elements.firstTripMessage.classList.remove('hidden');
                 return;
             }
 
             Elements.noDataMessage.classList.add('hidden');
             
-            tripLog.forEach(trip => {
+            tripLog.forEach((trip, index) => {
                 const row = Elements.tripLogBody.insertRow();
                 row.className = 'hover:bg-gray-50 transition duration-100';
                 
@@ -512,14 +606,11 @@
                 const distanceDisplay = trip.distance > 0 ? trip.distance.toFixed(0) : '—';
                 const mileageDisplay = trip.mileage > 0 ? trip.mileage.toFixed(2) : '—';
                 
-                // Format the date for display from the stored YYYY-MM-DD string
+                // Format the date for display
                 let dateDisplay = trip.date;
                 try {
-                    // Convert YYYY-MM-DD to a more readable format (e.g., MM/DD/YYYY)
                     dateDisplay = new Date(trip.date + 'T00:00:00').toLocaleDateString('en-US');
-                } catch (e) {
-                    // Fallback to the raw string if date is invalid
-                }
+                } catch (e) {}
 
 
                 const cells = [
@@ -536,19 +627,137 @@
                     cell.textContent = text;
                     cell.className = 'px-4 py-3 whitespace-nowrap text-gray-700';
                 });
+                
+                // Add Actions Cell (New)
+                const actionCell = row.insertCell();
+                actionCell.className = 'px-4 py-3 whitespace-nowrap text-right font-medium space-x-2';
+
+                // Edit Button
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Edit';
+                editBtn.className = 'text-primary hover:text-indigo-800 transition text-xs font-semibold';
+                editBtn.onclick = () => openEditModal(trip.id);
+                actionCell.appendChild(editBtn);
+
+                // Delete Button
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.className = 'text-red-500 hover:text-red-700 transition text-xs font-semibold ml-2';
+                deleteBtn.onclick = () => confirmDeleteTrip(trip.id);
+                actionCell.appendChild(deleteBtn);
             });
 
             // Ensure the last calculated mileage is shown
-            if (tripLog.length > 0 && tripLog[0].distance > 0) {
+            if (tripLog.length > 0 && tripLog[0].distance >= 0) {
                 Elements.resultDistance.textContent = tripLog[0].distance.toFixed(0);
                 Elements.resultMileage.textContent = tripLog[0].mileage.toFixed(2);
                 Elements.firstTripMessage.classList.add('hidden');
             }
         }
+        
+        // --- EDIT/DELETE LOGIC ---
+
+        /** Shows the delete confirmation modal. */
+        function confirmDeleteTrip(id) {
+            // Re-use the existing confirm modal for clearing data
+            Elements.confirmClearModal.querySelector('h3').textContent = 'Confirm Delete';
+            Elements.confirmClearModal.querySelector('p').innerHTML = 'Are you sure you want to permanently delete this trip entry? This cannot be undone.';
+            
+            // Set the confirmation button to call the delete function
+            Elements.confirmYesBtn.onclick = () => {
+                deleteTrip(id);
+                Elements.confirmClearModal.classList.add('hidden');
+            };
+            
+            // Set the cancel button to hide the modal
+            Elements.confirmNoBtn.onclick = () => {
+                Elements.confirmClearModal.classList.add('hidden');
+            };
+
+            Elements.confirmClearModal.classList.remove('hidden');
+            Elements.confirmClearModal.classList.add('flex');
+        }
+
+        /** Deletes a trip by ID, recalculates and re-renders the log. */
+        function deleteTrip(id) {
+            let log = getTripLog();
+            
+            // Filter out the trip to delete
+            log = log.filter(trip => trip.id !== id);
+            
+            // Recalculate the entire log since gaps may have been introduced
+            log = recalculateTripLog(log);
+            
+            saveTripLog(log);
+            renderInitialState();
+            showAlert("Trip Deleted", "The entry has been successfully removed.");
+        }
+
+        /** Opens the Edit Modal and pre-fills it with the selected trip's data. */
+        function openEditModal(id) {
+            const log = getTripLog();
+            const trip = log.find(t => t.id === id);
+
+            if (!trip) {
+                showAlert("Error", "Trip ID not found.");
+                return;
+            }
+
+            Elements.editTripId.value = trip.id;
+            Elements.editDate.value = trip.date;
+            Elements.editOdo.value = trip.odo.toFixed(0);
+            Elements.editAmount.value = trip.amount.toFixed(2);
+
+            Elements.editModal.classList.remove('hidden');
+            Elements.editModal.classList.add('flex');
+        }
+
+        /** Handles the logic for updating an edited trip entry. */
+        function updateEditedTrip() {
+            const id = Elements.editTripId.value;
+            const newDate = Elements.editDate.value;
+            const newOdo = parseFloat(Elements.editOdo.value);
+            const newAmount = parseFloat(Elements.editAmount.value);
+            const price = parseFloat(localStorage.getItem(FUEL_PRICE_KEY));
+
+            // Basic validation
+            if (isNaN(newOdo) || newOdo <= 0 || isNaN(newAmount) || newAmount <= 0) {
+                showAlert("Input Error", "Please ensure Odometer and Amount Paid are valid positive numbers.");
+                return;
+            }
+            if (isNaN(price) || price <= 0) {
+                showAlert("Missing Price", "Fuel price is missing. Cannot calculate liters/mileage.");
+                return;
+            }
+
+            let log = getTripLog();
+            const tripIndex = log.findIndex(t => t.id === id);
+
+            if (tripIndex === -1) {
+                showAlert("Error", "Cannot find trip to update.");
+                return;
+            }
+
+            // 1. Update the target trip object
+            const updatedTrip = log[tripIndex];
+            updatedTrip.date = newDate;
+            updatedTrip.odo = newOdo;
+            updatedTrip.amount = newAmount;
+
+            // 2. Recalculate the entire log (necessary to fix subsequent trips' distance/mileage)
+            log = recalculateTripLog(log);
+
+            // 3. Save, update UI, and close modal
+            saveTripLog(log);
+            renderInitialState();
+            Elements.editModal.classList.add('hidden');
+            showAlert("Update Successful", "The trip entry has been updated and mileage recalculated.");
+        }
+
 
         /** Exports the entire trip log to a CSV file (Excel compatible). */
         function exportToCSV() {
-            const tripLog = JSON.parse(localStorage.getItem(TRIP_LOG_KEY) || '[]');
+            const tripLog = getTripLog();
             
             if (tripLog.length === 0) {
                 showAlert("Export Failed", "There is no data saved to export.");
@@ -586,6 +795,10 @@
             Elements.confirmClearModal.classList.add('hidden');
             Elements.confirmClearModal.classList.remove('flex');
             
+            // Reset modal button functionality back to default 'Clear All'
+            Elements.confirmYesBtn.onclick = executeClearData; 
+            Elements.confirmNoBtn.onclick = () => Elements.confirmClearModal.classList.add('hidden');
+
             renderInitialState();
             clearResults();
             showAlert("Data Cleared", "All data has been wiped from your browser's storage.");
@@ -593,6 +806,13 @@
 
         /** Clears all data from local storage. */
         function clearAllData() {
+            // Reset modal appearance and text for 'Clear All'
+            Elements.confirmClearModal.querySelector('h3').textContent = 'Confirmation Required';
+            Elements.confirmClearModal.querySelector('p').innerHTML = 'Are you sure you want to permanently clear ALL saved fuel prices, last odometer readings, and trip history? This action cannot be undone.';
+            
+            Elements.confirmYesBtn.onclick = executeClearData;
+            Elements.confirmNoBtn.onclick = () => Elements.confirmClearModal.classList.add('hidden');
+
             // Show confirmation modal
             Elements.confirmClearModal.classList.remove('hidden');
             Elements.confirmClearModal.classList.add('flex');
@@ -602,37 +822,26 @@
         // --- EVENT LISTENERS & INITIALIZATION ---
 
         function initApp() {
-            // Load and display initial data
             renderInitialState();
             
             // PWA Setup: Capture the install prompt event
             window.addEventListener('beforeinstallprompt', (e) => {
-                // Prevent the mini-infobar from appearing on mobile
                 e.preventDefault();
-                // Stash the event so it can be triggered later.
                 deferredPrompt = e;
                 console.log('beforeinstallprompt fired and captured.');
             });
 
-            // Fuel Price Input Listener
+            // Input Listeners
             Elements.savePriceBtn.addEventListener('click', saveFuelPrice);
-
-            // Liters Calculation Listener (updates when amount paid changes)
             Elements.amountPaidInput.addEventListener('input', updateLitersPurchased);
-
-            // Trip Save Button Listener
             Elements.saveTripBtn.addEventListener('click', saveTrip);
 
-            // Export Button Listener
+            // Action Listeners
             Elements.exportBtn.addEventListener('click', exportToCSV);
-            
-            // NEW: Install PWA Button Listener (guides user to native installation prompt)
             Elements.installPWABtn.addEventListener('click', promptInstallGuidance);
-
-            // Clear Data Button Listener (now shows confirmation modal)
             Elements.clearDataBtn.addEventListener('click', clearAllData);
             
-            // Modal Close Listener (for simple alerts)
+            // Modal Listeners
             Elements.alertCloseBtn.addEventListener('click', hideAlert);
             Elements.alertModal.addEventListener('click', (e) => {
                 if (e.target === Elements.alertModal) {
@@ -640,21 +849,16 @@
                 }
             });
 
-            // Confirmation Modal Listeners (New)
-            Elements.confirmYesBtn.addEventListener('click', executeClearData);
-            Elements.confirmNoBtn.addEventListener('click', () => {
-                Elements.confirmClearModal.classList.add('hidden');
-                Elements.confirmClearModal.classList.remove('flex');
-            });
-            Elements.confirmClearModal.addEventListener('click', (e) => {
-                if (e.target === Elements.confirmClearModal) {
-                    Elements.confirmClearModal.classList.add('hidden');
-                    Elements.confirmClearModal.classList.remove('flex');
+            // NEW: Edit Modal Listeners
+            Elements.updateEditBtn.addEventListener('click', updateEditedTrip);
+            Elements.cancelEditBtn.addEventListener('click', () => Elements.editModal.classList.add('hidden'));
+            Elements.editModal.addEventListener('click', (e) => {
+                if (e.target === Elements.editModal) {
+                    Elements.editModal.classList.add('hidden');
                 }
             });
         }
 
-        // Initialize the application once the DOM is ready
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
