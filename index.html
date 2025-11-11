@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Mileage Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#4F46E5', // Indigo 600
+                        'secondary': '#10B981', // Emerald 500
+                        'dark-bg': '#1F2937', // Gray 800
+                        'light-card': '#F9FAFB', // Gray 50
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6; /* Gray 100 */
+        }
+        /* Custom scrollbar for log table */
+        #trip-log-table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        #trip-log-table-container::-webkit-scrollbar-thumb {
+            background: #9CA3AF;
+            border-radius: 4px;
+        }
+        #trip-log-table-container::-webkit-scrollbar-track {
+            background: #E5E7EB;
+        }
+        /* Adjust main padding to account for fixed banner */
+        .main-content-area {
+            padding-top: 4rem; /* Space for the fixed banner */
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Install Notification Banner -->
+    <div id="install-banner" class="fixed top-0 left-0 w-full bg-secondary text-white p-3 z-40 shadow-xl hidden">
+        <div class="max-w-4xl mx-auto flex items-center justify-between text-sm">
+            <p class="font-medium flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+                <span class="hidden sm:inline">Pro-Tip:</span> Install this app to your device's home screen for quick offline access!
+            </p>
+            <button id="dismiss-banner-btn" class="ml-4 p-1 rounded-full hover:bg-white/20 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto space-y-8 p-4 sm:p-6 md:p-10 main-content-area">
+        <!-- Header -->
+        <header class="text-center">
+            <h1 class="text-4xl font-extrabold text-primary">Mileage Manager</h1>
+            <p class="mt-2 text-gray-600">Track fuel efficiency, distance, and save your trip logs.</p>
+        </header>
+
+        <!-- Main Grid Layout -->
+        <div class="grid grid-cols-1 lg:col-cols-3 gap-6">
+
+            <!-- Input & Price Column (Span 2) -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- 1. Fuel Price Setting Card -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Current Fuel Price (per Liter)
+                    </h2>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                        <input type="number" id="fuel-price" placeholder="e.g., 105.50" step="0.01" class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" />
+                        <button id="save-price-btn" class="w-full sm:w-auto px-6 py-3 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-primary/90 transition duration-150 transform hover:scale-[1.01]">
+                            Save Price
+                        </button>
+                    </div>
+                    <p id="current-price-display" class="mt-3 text-sm font-medium text-gray-600"></p>
+                </div>
+
+                <!-- 2. Trip Entry Card -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        New Fuel-up Entry
+                    </h2>
+                    <div class="space-y-4">
+                        <!-- Odometer Input -->
+                        <div class="relative">
+                            <label for="odo-reading" class="block text-sm font-medium text-gray-700">Latest Odometer Reading (km)</label>
+                            <input type="number" id="odo-reading" placeholder="e.g., 15240" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                            <p id="last-odo-display" class="mt-1 text-xs text-gray-500"></p>
+                        </div>
+                        
+                        <!-- Amount Paid Input -->
+                        <div>
+                            <label for="amount-paid" class="block text-sm font-medium text-gray-700">Amount Paid (Currency)</label>
+                            <input type="number" id="amount-paid" placeholder="e.g., 3000" step="0.01" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                        </div>
+
+                        <!-- Liters Display -->
+                        <div class="p-3 bg-secondary/10 rounded-lg border border-secondary/20">
+                            <p class="text-sm font-medium text-secondary">
+                                Estimated Liters Purchased: <span id="liters-purchased-display" class="text-lg font-bold">0.00</span> L
+                            </p>
+                        </div>
+
+                        <!-- Save Button -->
+                        <button id="save-trip-btn" class="w-full px-6 py-3 bg-secondary text-white font-semibold rounded-lg shadow-md hover:bg-secondary/90 transition duration-150 transform hover:scale-[1.005]">
+                            Calculate & Save Trip
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Results Column (Span 1) -->
+            <div class="lg:col-span-1 space-y-6">
+
+                <!-- 3. Current Trip Results Card -->
+                <div class="bg-primary text-white p-6 rounded-xl shadow-lg border border-primary/50 h-full">
+                    <h2 class="text-2xl font-semibold mb-4 border-b border-white/30 pb-2">Last Calculation</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm opacity-80">Distance Traveled (km)</p>
+                            <p id="result-distance" class="text-4xl font-extrabold">0</p>
+                        </div>
+                        <div>
+                            <p class="text-sm opacity-80">Fuel Efficiency (km/L)</p>
+                            <p id="result-mileage" class="text-4xl font-extrabold">0.00</p>
+                        </div>
+                        
+                        <div id="first-trip-message" class="hidden pt-4 border-t border-white/30 text-sm opacity-90">
+                            <p>Once you save your first trip, this calculation will be ready!</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- 4. Trip History Log -->
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2m-7 7h3" />
+                </svg>
+                Trip History Log
+            </h2>
+
+            <div id="trip-log-table-container" class="overflow-x-auto h-72">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 sticky top-0">
+                            <th class="px-4 py-3">Date</th>
+                            <th class="px-4 py-3">Odo (km)</th>
+                            <th class="px-4 py-3">Distance (km)</th>
+                            <th class="px-4 py-3">Amount</th>
+                            <th class="px-4 py-3">Liters (L)</th>
+                            <th class="px-4 py-3">Mileage (km/L)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trip-log-body" class="bg-white divide-y divide-gray-200 text-sm">
+                        <!-- Log entries will be inserted here -->
+                    </tbody>
+                </table>
+                <p id="no-data-message" class="text-center py-10 text-gray-400 hidden">No trips recorded yet.</p>
+            </div>
+            
+            <div class="mt-6 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                <button id="export-btn" class="flex-grow px-6 py-3 bg-secondary text-white font-medium rounded-lg shadow-md hover:bg-secondary/90 transition duration-150">
+                    Export to Excel (CSV)
+                </button>
+                <button id="clear-data-btn" class="w-full sm:w-auto px-6 py-3 bg-red-500 text-white font-medium rounded-lg shadow-md hover:bg-red-600 transition duration-150">
+                    Clear All Data
+                </button>
+            </div>
+        </div>
+
+        <!-- Custom Alert/Modal Area -->
+        <div id="alert-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden z-50 items-center justify-center">
+            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full space-y-4">
+                <h3 id="alert-title" class="text-xl font-bold text-gray-800"></h3>
+                <p id="alert-message" class="text-gray-600"></p>
+                <button id="alert-close-btn" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition">
+                    Got it
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONSTANTS AND INITIALIZATION ---
+        const FUEL_PRICE_KEY = 'mileageTracker_fuelPrice';
+        const LAST_ODO_KEY = 'mileageTracker_lastOdometer';
+        const TRIP_LOG_KEY = 'mileageTracker_tripLog';
+        const INSTALL_PROMPT_KEY = 'mileageTracker_installPromptDismissed'; // New key for the install prompt
+        
+        // Mock URL - REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT URL
+        const GOOGLE_SHEETS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL'; 
+
+        // DOM Elements
+        const Elements = { 
+            // Price Input
+            fuelPriceInput: document.getElementById('fuel-price'),
+            savePriceBtn: document.getElementById('save-price-btn'),
+            currentPriceDisplay: document.getElementById('current-price-display'),
+
+            // Trip Input
+            odoReadingInput: document.getElementById('odo-reading'),
+            amountPaidInput: document.getElementById('amount-paid'),
+            saveTripBtn: document.getElementById('save-trip-btn'),
+            lastOdoDisplay: document.getElementById('last-odo-display'),
+            litersDisplay: document.getElementById('liters-purchased-display'),
+            
+            // Results
+            resultDistance: document.getElementById('result-distance'),
+            resultMileage: document.getElementById('result-mileage'),
+            firstTripMessage: document.getElementById('first-trip-message'),
+
+            // Log & Export
+            tripLogBody: document.getElementById('trip-log-body'),
+            exportBtn: document.getElementById('export-btn'),
+            clearDataBtn: document.getElementById('clear-data-btn'),
+            noDataMessage: document.getElementById('no-data-message'),
+
+            // Modal
+            alertModal: document.getElementById('alert-modal'),
+            alertTitle: document.getElementById('alert-title'),
+            alertMessage: document.getElementById('alert-message'),
+            alertCloseBtn: document.getElementById('alert-close-btn'),
+            
+            // New Install Prompt Elements
+            installBanner: document.getElementById('install-banner'),
+            dismissBannerBtn: document.getElementById('dismiss-banner-btn'),
+        };
+
+        // --- UTILITY FUNCTIONS ---
+
+        /** Shows a custom modal alert. */
+        function showAlert(title, message) {
+            Elements.alertTitle.textContent = title;
+            Elements.alertMessage.textContent = message;
+            Elements.alertModal.classList.remove('hidden');
+            Elements.alertModal.classList.add('flex');
+        }
+
+        /** Hides the custom modal alert. */
+        function hideAlert() {
+            Elements.alertModal.classList.add('hidden');
+            Elements.alertModal.classList.remove('flex');
+        }
+        
+        /** Clears all calculation results and inputs. */
+        function clearResults() {
+            Elements.resultDistance.textContent = '0';
+            Elements.resultMileage.textContent = '0.00';
+            Elements.litersDisplay.textContent = '0.00';
+            Elements.odoReadingInput.value = '';
+            Elements.amountPaidInput.value = '';
+        }
+
+        /**
+         * Sends trip data to a Google Apps Script Web App for saving to Google Sheets.
+         * NOTE: This is a placeholder function. The user must deploy their own GAS.
+         * @param {object} tripData The trip object to send.
+         */
+        async function sendToGoogleSheets(tripData) {
+            if (GOOGLE_SHEETS_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL') {
+                console.warn("Google Sheets Integration Warning: Please update GOOGLE_SHEETS_SCRIPT_URL with your actual deployed script URL.");
+                return;
+            }
+
+            try {
+                // Fetch call uses 'no-cors' mode which is required for simple GAS POST requests
+                const response = await fetch(GOOGLE_SHEETS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(tripData),
+                    mode: 'no-cors', 
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                // Since response is opaque in 'no-cors', we rely on the fetch not failing.
+                console.log('Data fetch sent to Google Sheet endpoint.');
+                
+            } catch (error) {
+                console.error('Error attempting to send data to Google Sheets:', error);
+                // We proceed even if the sheet save fails, as local storage is the primary persistence
+            }
+        }
+
+
+        // --- INSTALL PROMPT LOGIC ---
+        
+        /** Checks local storage and displays the install banner if it hasn't been dismissed. */
+        function checkAndShowInstallPrompt() {
+            const isDismissed = localStorage.getItem(INSTALL_PROMPT_KEY);
+
+            if (isDismissed !== 'true') {
+                Elements.installBanner.classList.remove('hidden');
+                Elements.installBanner.classList.add('flex');
+            }
+        }
+
+        /** Hides the install banner and sets the flag in local storage. */
+        function dismissInstallPrompt() {
+            Elements.installBanner.classList.add('hidden');
+            Elements.installBanner.classList.remove('flex');
+            localStorage.setItem(INSTALL_PROMPT_KEY, 'true');
+        }
+
+
+        // --- LOGIC FUNCTIONS ---
+
+        /** Renders the current fuel price and last odometer reading from storage. */
+        function renderInitialState() {
+            const price = localStorage.getItem(FUEL_PRICE_KEY) || 'Not Set';
+            const lastOdo = localStorage.getItem(LAST_ODO_KEY) || 'N/A';
+            
+            if (price !== 'Not Set') {
+                Elements.fuelPriceInput.value = price;
+                Elements.currentPriceDisplay.textContent = `Current Price: ${parseFloat(price).toFixed(2)} per Liter.`;
+            } else {
+                Elements.currentPriceDisplay.textContent = 'Please set the price first.';
+            }
+
+            Elements.lastOdoDisplay.textContent = `Last Odo Reading: ${lastOdo} km.`;
+            
+            renderTripLog();
+        }
+        
+        /** Saves the user-entered fuel price to local storage. */
+        function saveFuelPrice() {
+            const price = parseFloat(Elements.fuelPriceInput.value);
+            if (isNaN(price) || price <= 0) {
+                showAlert("Input Error", "Please enter a valid fuel price (a positive number).");
+                return;
+            }
+            
+            localStorage.setItem(FUEL_PRICE_KEY, price.toFixed(2));
+            renderInitialState(); // Refresh the display
+            Elements.fuelPriceInput.value = price.toFixed(2);
+            showAlert("Success", `Fuel price saved: ${price.toFixed(2)} per Liter.`);
+        }
+
+        /** Calculates the liters purchased based on amount paid and saved fuel price. */
+        function updateLitersPurchased() {
+            const price = parseFloat(localStorage.getItem(FUEL_PRICE_KEY));
+            const amount = parseFloat(Elements.amountPaidInput.value);
+            
+            if (isNaN(price) || price <= 0) {
+                Elements.litersDisplay.textContent = '0.00';
+                return;
+            }
+            if (isNaN(amount) || amount <= 0) {
+                Elements.litersDisplay.textContent = '0.00';
+                return;
+            }
+
+            const liters = amount / price;
+            Elements.litersDisplay.textContent = liters.toFixed(2);
+        }
+
+        /** Handles the main trip saving and calculation logic. */
+        function saveTrip() {
+            const currentOdo = parseFloat(Elements.odoReadingInput.value);
+            const amountPaid = parseFloat(Elements.amountPaidInput.value);
+            const price = parseFloat(localStorage.getItem(FUEL_PRICE_KEY));
+            const lastOdo = parseFloat(localStorage.getItem(LAST_ODO_KEY));
+
+            // 1. Input Validation
+            if (isNaN(price) || price <= 0) {
+                showAlert("Missing Price", "Please save the current fuel price before logging a trip.");
+                return;
+            }
+            if (isNaN(currentOdo) || currentOdo <= 0) {
+                showAlert("Input Error", "Please enter a valid, positive odometer reading.");
+                return;
+            }
+            if (lastOdo && currentOdo <= lastOdo) {
+                showAlert("Odometer Error", `Latest odometer (${currentOdo}) must be greater than the last recorded odometer (${lastOdo}).`);
+                return;
+            }
+            if (isNaN(amountPaid) || amountPaid <= 0) {
+                showAlert("Input Error", "Please enter a valid, positive amount paid.");
+                return;
+            }
+
+            // 2. Core Calculations
+            const liters = amountPaid / price;
+            let distance = 0;
+            let mileage = 0;
+
+            if (!isNaN(lastOdo)) {
+                Elements.firstTripMessage.classList.add('hidden');
+                distance = currentOdo - lastOdo;
+                mileage = distance / liters;
+            } else {
+                Elements.firstTripMessage.classList.remove('hidden');
+            }
+
+            // 3. Create Trip Object
+            const newTrip = {
+                date: new Date().toLocaleDateString('en-US'),
+                odo: currentOdo,
+                liters: liters,
+                amount: amountPaid,
+                distance: distance,
+                mileage: mileage
+            };
+
+            // 4. Update Local Storage Log
+            let tripLog = JSON.parse(localStorage.getItem(TRIP_LOG_KEY) || '[]');
+            tripLog.unshift(newTrip); // Add to the beginning
+            localStorage.setItem(TRIP_LOG_KEY, JSON.stringify(tripLog));
+
+            // 5. Update Last Odometer & UI
+            localStorage.setItem(LAST_ODO_KEY, currentOdo);
+            renderInitialState(); // Update last odo display
+            renderTripLog();
+            clearResults(); // Clear inputs
+
+            // 6. Display Results
+            Elements.resultDistance.textContent = distance.toFixed(0);
+            Elements.resultMileage.textContent = mileage.toFixed(2);
+            showAlert("Trip Logged!", `Mileage: ${mileage.toFixed(2)} km/L.`);
+
+            // 7. Send to Google Sheets (Async)
+            sendToGoogleSheets(newTrip);
+        }
+
+        /** Clears the local log and re-renders the table. */
+        function renderTripLog() {
+            const tripLog = JSON.parse(localStorage.getItem(TRIP_LOG_KEY) || '[]');
+            Elements.tripLogBody.innerHTML = ''; // Clear existing rows
+
+            if (tripLog.length === 0) {
+                Elements.noDataMessage.classList.remove('hidden');
+                return;
+            }
+
+            Elements.noDataMessage.classList.add('hidden');
+            
+            tripLog.forEach(trip => {
+                const row = Elements.tripLogBody.insertRow();
+                row.className = 'hover:bg-gray-50 transition duration-100';
+                
+                // Format values for display
+                const distanceDisplay = trip.distance > 0 ? trip.distance.toFixed(0) : '—';
+                const mileageDisplay = trip.mileage > 0 ? trip.mileage.toFixed(2) : '—';
+
+                const cells = [
+                    trip.date,
+                    trip.odo.toFixed(0),
+                    distanceDisplay,
+                    trip.amount.toFixed(2),
+                    trip.liters.toFixed(2),
+                    mileageDisplay
+                ];
+
+                cells.forEach(text => {
+                    const cell = row.insertCell();
+                    cell.textContent = text;
+                    cell.className = 'px-4 py-3 whitespace-nowrap text-gray-700';
+                });
+            });
+
+            // Ensure the last calculated mileage is shown
+            if (tripLog.length > 0 && tripLog[0].distance > 0) {
+                Elements.resultDistance.textContent = tripLog[0].distance.toFixed(0);
+                Elements.resultMileage.textContent = tripLog[0].mileage.toFixed(2);
+                Elements.firstTripMessage.classList.add('hidden');
+            }
+        }
+
+        /** Exports the entire trip log to a CSV file (Excel compatible). */
+        function exportToCSV() {
+            const tripLog = JSON.parse(localStorage.getItem(TRIP_LOG_KEY) || '[]');
+            
+            if (tripLog.length === 0) {
+                showAlert("Export Failed", "There is no data saved to export.");
+                return;
+            }
+
+            // Define column headers
+            let csv = 'Date,Odometer (km),Distance (km),Amount Paid,Liters Purchased (L),Mileage (km/L)\n'; 
+            
+            // Add data rows
+            tripLog.forEach(trip => {
+                const distanceExport = trip.distance > 0 ? trip.distance.toFixed(2) : '0';
+                const mileageExport = trip.mileage > 0 ? trip.mileage.toFixed(2) : '0';
+
+                csv += `${trip.date},${trip.odo.toFixed(2)},${distanceExport},${trip.amount.toFixed(2)},${trip.liters.toFixed(2)},${mileageExport}\n`;
+            });
+
+            // Trigger download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute("download", `fuel_log_${new Date().toISOString().slice(0, 10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showAlert("Export Complete", "Your mileage log has been downloaded as a CSV file.");
+        }
+
+        /** Clears all data from local storage. */
+        function clearAllData() {
+            // Note: We use window.confirm here as this is a destructive action
+            if (confirm("Are you sure you want to permanently clear ALL saved fuel prices, last odometer readings, and trip history?")) {
+                localStorage.removeItem(FUEL_PRICE_KEY);
+                localStorage.removeItem(LAST_ODO_KEY);
+                localStorage.removeItem(TRIP_LOG_KEY);
+                localStorage.removeItem(INSTALL_PROMPT_KEY); // Also clear the install prompt flag
+                renderInitialState();
+                clearResults();
+                showAlert("Data Cleared", "All data has been wiped from your browser's storage.");
+            }
+        }
+
+
+        // --- EVENT LISTENERS & INITIALIZATION ---
+
+        function initApp() {
+            // Load and display initial data
+            renderInitialState();
+            
+            // Check for and show the install prompt if it hasn't been dismissed
+            checkAndShowInstallPrompt();
+
+            // Fuel Price Input Listener
+            Elements.savePriceBtn.addEventListener('click', saveFuelPrice);
+
+            // Liters Calculation Listener (updates when amount paid changes)
+            Elements.amountPaidInput.addEventListener('input', updateLitersPurchased);
+
+            // Trip Save Button Listener
+            Elements.saveTripBtn.addEventListener('click', saveTrip);
+
+            // Export Button Listener
+            Elements.exportBtn.addEventListener('click', exportToCSV);
+
+            // Clear Data Button Listener (using a standard confirmation before clearing)
+            Elements.clearDataBtn.addEventListener('click', clearAllData);
+            
+            // Modal Close Listener
+            Elements.alertCloseBtn.addEventListener('click', hideAlert);
+            Elements.alertModal.addEventListener('click', (e) => {
+                if (e.target === Elements.alertModal) {
+                    hideAlert();
+                }
+            });
+
+            // Install Banner Dismiss Listener
+            Elements.dismissBannerBtn.addEventListener('click', dismissInstallPrompt);
+        }
+
+        // Initialize the application once the DOM is ready
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
