@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuel Mileage Tracker</title>
+    <title>Fuel Mileage Tracker v2</title>
     <link rel="icon" href="assets/favicon.ico">
-    <link rel="apple-touch-icon" href="assets/fuel.jpg">
     <!-- PWA & Icon Setup START -->
     <meta name="theme-color" content="#4F46E5">
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzQwMzBiOCIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMGMwIDUuNTIzLTQuNDc3IDEwLTEwIDEwUzIgMTcuNTIzIDIgMTJhMTAgMTAgMCAwMS02IDMuNTE4bDYuMDI2LTkuNjUyQzcuNTc4IDMuMTI1IDkuNjI3IDIgMTIgMnptLTIuNjMzIDEwLjczN2MtLjY3Ni4zMTctMS4yMTMtLjE0My0xLjAxLS44NjlMNy40NSAzLjI2NGMuMjAzLS43MjcuOTgtMS4wODUgMS43MDYtLjg4M2wxLjU1OC40MzJjLS45NDQuNjgyLTEuNjUzIDEuNTEyLTEuNjUzIDIuMzQ5LS4wMDEuMjg1LjA1NS41NTguMTU5LjgwN2wuODkxIDEuMjM1Yy0uOTgzLjU4NS0xLjY0NyAxLjk3Mi0xLjY0NyAzLjUzNCAwIC4yODkuMDYzLjU1OC4xNzYuODA4bC0uODQyLjU1NyAyLjM0NSAyLjkxNi40NjctLjM3djIuOTIyaDJ2LTIuOTIybC40NjcuMzY5IDIuMzQ1LTIuOTE2LS44NDItLjU1N2MuMTEzLS4yNS4xNzYtLjUxOS4xNzYtLjgwOCAwLTEuNTYyLS42NjQtMi45NDktMS42NDctMy41MzVsLjg5MS0xLjIzNWMuMTA0LS4yNDkuMTU5LS41Mi4xNTktLjgwNyAwLS44MzctLjcxLTEuNjY3LTEuNjU1LTIuMzQ5bDEuNTU5LS40MzJjLjczLS4yMDEgMS41MDktLjE2NyAxLjcxMS41NjJsLS43MDMgMi41NTljLjIwMy43MjYtLjMyOCAxLjE4Ni0xLjAxLjg2OWwtLjQzMi0uNDEzYy0uMTg4LS4xOC0uMzM5LS4zMTQtLjQ1NC0uNDQ1LS42NjkuNDY4LTEuMjI3LjcyNy0xLjU1OC43MjctLjA3IDAtLjE0LS4wMjQtLjIwNC0uMDc0bC0uNDczLS4zODItLjQ4LjM4Mi0uNDctLjA2N3oiLz48L3N2Zy4+" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzQwMzBiOCIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMGMwIDUuNTIzLTQuNDc3IDEwLTEwIDEwUzIgMTcuNTIzIDIgMTJhMTAgMTAgMCAwMS02IDMuNTE4bDYuMDI2LTkuNjUyQzcuNTc4IDMuMTI1IDkuNjI3IDIgMTIgMnptLTIuNjMzIDEwLjczN2MtLjY3Ni4zMTctMS4yMTMtLjE0My0xLjAxLS44NjlMNy40NSAzLjI2NGMuMjAzLS43MjcuOTgtMS4wODUgMS43MDYtLjg4M2wxLjU1OC40MzJjLS45NDQuNjgyLTEuNjUzIDEuNTEyLTEuNjUzIDIuMzQ5LS4wMDEuMjg1LjA1NS41NTguMTU5LjgwN2wuODkxIDEuMjM1Yy0uOTgzLjU4NS0xLjY0NyAxLjk3Mi0xLjY0NyAzLjUzNCAwIC4yODkuMDYzLjU1OC4xNzYuODA4bC0uODQyLjU1NyAyLjM0NSAyLjkxNi40NjctLjM3djIuOTIyaDJ2LTIuOTIybC40NjcuMzY5IDIuMzQ1LTIuOTE2LS44NDItLjU1N2MuMTEzLS4yNS4xNzYtLjUxOS4xNzYtLjgwOCAwLTEuNTYyLS42NjQtMi45NDktMS42NDctMy41MzVsLjg5MS0xLjIzNWMuMTA0LS4yNDkuMTU5LS41Mi4xNTktLjgwNyAwLS44MzctLjcxLTEuNjY3LTEuNjU1LTIuMzQ5bDEuNTU5LS40MzJjLjczLS4yMDEgMS41MDktLjE2NyAxLjcxMS41NjJsLS43MDMgMi41NTljLjIwMy43MjYtLjMyOCAxLjE4Ni0xLjAxLjg2OWwtLjQzMi0uNDEzYy0uMTg4LS4xOC0uMzM5LS4zMTQtLjQ1NC0uNDQ1LS42NjkuNDY4LTEuMjI3LjcyNy0xLjU1OC43MjctLjA3IDAtLjE0LS4wMjQtLjIwNC0uMDc0bC0uNDczLS4zODItLjQ4LjM4Mi0uNDctLjA2N3oiLz48L3N2Zy4+" />
-    <!-- Embedded Base64 Manifest for PWA installation shortcut -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzQwMzBiOCIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMGMwIDUuNTIzLTQuNDc3IDEwLTEwIDEwUzIgMTcuNTIzIDIgMTJhMTAgMTAgMCAwMS02IDMuNTE4bDYuMDI2LTkuNjUyQzcuNTc4IDMuMTI1IDkuNjI3IDIgMTIgMnptLTIuNjMzIDEwLjczN2MtLjY3Ni4zMTctMS4yMTMtLjE0My0xLjAxLS44NjlMNy40NSAzLjI2NGMuMjAzLS43MjcuOTgtMS4wODUgMS43MDYtLjg4M2wxLjU1OC40MzJjLS45NDQuNjgyLTEuNjUzIDEuNTEyLTEuNjUzIDIuMzQ5LS4wMDEuMjg1LjA1NS41NTguMTU5LjgwN2wuODkxIDEuMjM1Yy0uOTgzLjU4NS0xLjY0NyAxLjk3Mi0xLjY0NyAzLjUzNCAwIC4yODkuMDYzLjU1OC4xNzYuODA4bC0uODQyLjU1NyAyLjM0NSAyLjkxNi40NjctLjM3djIuOTIyaDJ2LTIuOTIybC40NjcuMzY5IDIuMzQ1LTIuOTE2LS44NDItLjU1N2MuMTEzLS4yNS4xNzYtLjUxOS4xNzYtLjgwOCAwLTEuNTYyLS42NjQtMi45NDktMS42NDctMy41MzVsLjg5MS0xLjIzNWMuMTA0LS4yNDkuMTU5LS41Mi4xNTktLjgwNyAwLS44MzctLjcxLTEuNjY3LTEuNjU1LTIuMzQ5bDEuNTU9LS40MzJjLjczLS4yMDEgMS41MDktLjE2NyAxLjcxMS41NjJsLS43MDMgMi41NTljLjIwMy43MjYtLjMyOCAxLjE4Ni0xLjAxLjg2OWwtLjQzMi0uNDEzYy0uMTg4LS4xOC0uMzM5LS4zMTQtLjQ1NC0uNDQ1LS42NjkuNDY4LTEuMjI3LjcyNy0xLjU1OC43MjctLjA3IDAtLjE0LS4wMjQtLjIwNC0uMDc0bC0uNDczLS4zODItLjQ4LjM4Mi0uNDctLjA2N3oiLz48L3N2Zy4+" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzQwMzBiOCIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMGMwIDUuNTIzLTQuNDc3IDEwLTEwIDEwUzIgMTcuNTIzIDIgMTJhMTAgMTAgMCAwMS02IDMuNTE4bDYuMDI2LTkuNjUyQzcuNTc4IDMuMTI1IDkuNjI3IDIgMTIgMnptLTIuNjMzIDEwLjczN2MtLjY3Ni4zMTctMS4yMTMtLjE0My0xLjAxLS44NjlMNy40NSAzLjI2NGMuMjAzLS43MjcuOTgtMS4wODUgMS43MDYtLjg4M2wxLjU1OC40MzJjLS45NDQuNjgyLTEuNjUzIDEuNTEyLTEuNjUzIDIuMzQ5LS4wMDEuMjg1LjA1NS41NTguMTU5LjgwN2wuODkxIDEuMjM1Yy0uOTgzLjU4NS0xLjY0NyAxLjk3Mi0xLjY0NyAzLjUzNCAwIC4yODkuMDYzLjU1OC4xNzYuODA4bC0uODQyLjU1NyAyLjM0NSAyLjkxNi40NjctLjM3djIuOTIyaDJ2LTIuOTIybC40NjcuMzY5IDIuMzQ1LTIuOTE2LS44NDItLjU1N2MuMTEzLS4yNS4xNzYtLjUxOS4xNzYtLjgwOCAwLTEuNTYyLS42NjQtMi45NDktMS42NDctMy41MzVsLjg5MS0xLjIzNWMuMTA0LS4yNDkuMTU5LS41Mi4xNTktLjgwNyAwLS44MzctLjcxLTEuNjY3LTEuNjU1LTIuMzQ5bDEuNTU9LS40MzJjLjczLS4yMDEgMS41MDktLjE2NyAxLjcxMS41NjJsLS43MDMgMi41NTljLjIwMy43MjYtLjMyOCAxLjE4Ni0xLjAxLjg2OWwtLjQzMi0uNDEzYy0uMTg4LS4xOC0uMzM5LS4zMTQtLjQ1NC0uNDQ1LS42NjkuNDY4LTEuMjI3LjcyNy0xLjU1OC43MjctLjA3IDAtLjE0LS4wMjQtLjIwNC0uMDc0bC0uNDczLS4zODItLjQ4LjM4Mi0uNDctLjA2N3oiLz48L3N2Zy4+" />
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1pbGVhZ2UgTWFuYWdlciIsCiAgInNob3J0X25hbWUiOiAiRnVlbCBMb2ciLAogICJzdGFydF91cmwiOiAiLi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGM0Y0RjYiLAogICJ0aGVtZV9jb2xvciI6ICIjNEY0NkU1IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSFN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzQwMzBiOCIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMGMwIDUuNTIzLTQuNDc3IDEwLTEwIDEwUzIgMTcuNTIzIDIgMTJhMTAgMTAgMCAwMS02IDMuNSIgIHN0eWxlPSJmaWxsOiNmYmEzMzYiLz48cGF0aCBkPSJtMTYgMTdjMCAyLjIgMCA0IDAgNCAyLjIgMCA0IDAgNCAwLTQuNSAwLTggMC04LTQuNSAwLTggMC04IDAgNC41IDAgOCIgLz48L3N2Zy4+IiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQo=">
     <!-- PWA & Icon Setup END -->
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -48,30 +48,51 @@
         #trip-log-table-container::-webkit-scrollbar-track {
             background: #E5E7EB;
         }
-        /* Removed padding-top adjustment since fixed banner is gone */
+        .loading-overlay {
+            background-color: rgba(255,255,255,0.7);
+            backdrop-filter: blur(2px);
+        }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen pb-10">
 
-    <!-- Install Notification Banner was removed -->
+    <div class="max-w-4xl mx-auto space-y-6 p-4 sm:p-6 md:p-10 relative">
+        
+        <!-- App ID Display (Subtle) -->
+        <div class="absolute top-2 right-4 text-[10px] text-gray-400 font-mono" id="user-id-display">Connecting...</div>
 
-    <div class="max-w-4xl mx-auto space-y-8 p-4 sm:p-6 md:p-10">
         <!-- Header -->
-        <header class="text-center">
+        <header class="text-center mb-8">
             <h1 class="text-4xl font-extrabold text-primary">Mileage Manager</h1>
-            <p class="mt-2 text-gray-600">Track fuel efficiency, distance, and save your trip logs.</p>
+            <p class="mt-2 text-gray-600">Cloud-Synced Fuel Efficiency Tracker</p>
         </header>
 
+        <!-- Statistics Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white p-4 rounded-xl shadow-md border border-gray-100 flex flex-col items-center">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Total Spent</span>
+                <span id="stat-total-cost" class="text-2xl font-bold text-gray-800 mt-1">...</span>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-md border border-gray-100 flex flex-col items-center">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Avg Mileage</span>
+                <span id="stat-avg-mileage" class="text-2xl font-bold text-primary mt-1">... <span class="text-sm font-normal text-gray-500">km/L</span></span>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-md border border-gray-100 flex flex-col items-center">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Total Distance</span>
+                <span id="stat-total-distance" class="text-2xl font-bold text-gray-800 mt-1">... <span class="text-sm font-normal text-gray-500">km</span></span>
+            </div>
+        </div>
+
         <!-- Main Grid Layout -->
-        <div class="grid grid-cols-1 lg:col-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
             <!-- Input & Price Column (Span 2) -->
             <div class="lg:col-span-2 space-y-6">
 
                 <!-- 1. Fuel Price Setting Card -->
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <h2 class="text-lg font-semibold text-gray-800 flex items-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.244-4.243a8 8 0111.314 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
@@ -80,45 +101,50 @@
                     <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                         <input type="number" id="fuel-price" placeholder="e.g., 105.50" step="0.01" class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" />
                         <button id="save-price-btn" class="w-full sm:w-auto px-6 py-3 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-primary/90 transition duration-150 transform hover:scale-[1.01]">
-                            Save Price
+                            Save
                         </button>
                     </div>
                     <p id="current-price-display" class="mt-3 text-sm font-medium text-gray-600"></p>
                 </div>
 
                 <!-- 2. Trip Entry Card -->
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-                    <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 relative">
+                    <!-- Loading overlay for trip entry -->
+                    <div id="trip-loading" class="hidden absolute inset-0 loading-overlay z-10 flex items-center justify-center rounded-xl">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                    </div>
+
+                    <h2 class="text-lg font-semibold text-gray-800 flex items-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                         New Fuel-up Entry
                     </h2>
                     <div class="space-y-4">
-                        <!-- New Date Input -->
-                        <div>
-                            <label for="trip-date" class="block text-sm font-medium text-gray-700">Fuel-up Date</label>
-                            <input type="date" id="trip-date" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- New Date Input -->
+                            <div>
+                                <label for="trip-date" class="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Date</label>
+                                <input type="date" id="trip-date" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                            </div>
+                            <!-- Odometer Input -->
+                            <div>
+                                <label for="odo-reading" class="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Odometer (km)</label>
+                                <input type="number" id="odo-reading" placeholder="e.g., 15240" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                                <p id="last-odo-display" class="mt-1 text-xs text-gray-500 text-right"></p>
+                            </div>
                         </div>
-
-                        <!-- Odometer Input -->
-                        <div class="relative">
-                            <label for="odo-reading" class="block text-sm font-medium text-gray-700">Latest Odometer Reading (km)</label>
-                            <input type="number" id="odo-reading" placeholder="e.g., 15240" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
-                            <p id="last-odo-display" class="mt-1 text-xs text-gray-500"></p>
-                        </div>
-                        
+                         
                         <!-- Amount Paid Input -->
                         <div>
-                            <label for="amount-paid" class="block text-sm font-medium text-gray-700">Amount Paid (Currency)</label>
-                            <input type="number" id="amount-paid" placeholder="e.g., 3000" step="0.01" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                            <label for="amount-paid" class="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Amount Paid</label>
+                            <input type="number" id="amount-paid" placeholder="e.g., 3000" step="0.01" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
                         </div>
 
                         <!-- Liters Display -->
-                        <div class="p-3 bg-secondary/10 rounded-lg border border-secondary/20">
-                            <p class="text-sm font-medium text-secondary">
-                                Estimated Liters Purchased: <span id="liters-purchased-display" class="text-lg font-bold">0.00</span> L
-                            </p>
+                        <div class="p-3 bg-secondary/5 rounded-lg border border-secondary/20 flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-600">Est. Liters:</span>
+                            <span class="text-lg font-bold text-secondary"><span id="liters-purchased-display">0.00</span> L</span>
                         </div>
 
                         <!-- Save Button -->
@@ -129,26 +155,41 @@
                 </div>
             </div>
             
-            <!-- Results Column (Span 1) -->
+            <!-- Results & Charts Column (Span 1) -->
             <div class="lg:col-span-1 space-y-6">
 
                 <!-- 3. Current Trip Results Card -->
-                <div class="bg-primary text-white p-6 rounded-xl shadow-lg border border-primary/50 h-full">
-                    <h2 class="text-2xl font-semibold mb-4 border-b border-white/30 pb-2">Last Calculation</h2>
+                <div class="bg-primary text-white p-6 rounded-xl shadow-lg border border-primary/50 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-semibold mb-4 border-b border-white/30 pb-2 relative z-10">Last Trip Performance</h2>
                     
-                    <div class="space-y-4">
+                    <div class="space-y-4 relative z-10">
                         <div>
-                            <p class="text-sm opacity-80">Distance Traveled (km)</p>
+                            <p class="text-xs uppercase tracking-wide opacity-80">Distance Traveled</p>
                             <p id="result-distance" class="text-4xl font-extrabold">0</p>
+                            <p class="text-sm opacity-80">kilometers</p>
                         </div>
                         <div>
-                            <p class="text-sm opacity-80">Fuel Efficiency (km/L)</p>
-                            <p id="result-mileage" class="text-4xl font-extrabold">0.00</p>
+                            <p class="text-xs uppercase tracking-wide opacity-80">Fuel Efficiency</p>
+                            <p id="result-mileage" class="text-4xl font-extrabold text-green-300">0.00</p>
+                            <p class="text-sm opacity-80">km / Liter</p>
                         </div>
                         
-                        <div id="first-trip-message" class="hidden pt-4 border-t border-white/30 text-sm opacity-90">
-                            <p>Once you save your first trip, this calculation will be ready!</p>
+                        <div id="first-trip-message" class="hidden pt-4 border-t border-white/30 text-xs opacity-90 italic">
+                            <p>Once you save your next trip, this calculation will appear!</p>
                         </div>
+                    </div>
+                </div>
+
+                <!-- 4. Chart Card -->
+                <div class="bg-white p-4 rounded-xl shadow-lg border border-gray-200 h-64 flex flex-col">
+                    <h3 class="text-sm font-semibold text-gray-700 mb-2">Efficiency Trend (km/L)</h3>
+                    <div class="flex-grow relative w-full h-full">
+                         <canvas id="mileageChart"></canvas>
                     </div>
                 </div>
 
@@ -156,25 +197,35 @@
 
         </div>
 
-        <!-- 4. Trip History Log -->
+        <!-- 5. Trip History Log -->
         <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-            <h2 class="text-2xl font-semibold text-gray-800 flex items-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2m-7 7h3" />
-                </svg>
-                Trip History Log
-            </h2>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2m-7 7h3" />
+                    </svg>
+                    Trip History
+                </h2>
+                <div class="flex space-x-2 mt-2 sm:mt-0">
+                    <button id="export-btn" class="px-3 py-1.5 bg-gray-100 text-gray-600 text-sm font-medium rounded hover:bg-gray-200 transition">
+                        Export CSV
+                    </button>
+                    <button id="install-pwa-btn" class="px-3 py-1.5 bg-gray-100 text-primary text-sm font-medium rounded hover:bg-gray-200 transition">
+                        Install App
+                    </button>
+                </div>
+            </div>
 
-            <div id="trip-log-table-container" class="overflow-x-auto h-72">
+            <div id="trip-log-table-container" class="overflow-x-auto h-72 rounded-lg border border-gray-100 relative">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 sticky top-0">
                             <th class="px-4 py-3">Date</th>
                             <th class="px-4 py-3">Odo (km)</th>
-                            <th class="px-4 py-3">Distance (km)</th>
+                            <th class="px-4 py-3">Dist (km)</th>
                             <th class="px-4 py-3">Amount</th>
-                            <th class="px-4 py-3">Liters (L)</th>
-                            <th class="px-4 py-3">Mileage (km/L)</th>
+                            <th class="px-4 py-3">Liters</th>
+                            <th class="px-4 py-3">Km/L</th>
                             <th class="px-4 py-3 text-right">Actions</th>
                         </tr>
                     </thead>
@@ -183,24 +234,21 @@
                     </tbody>
                 </table>
                 <p id="no-data-message" class="text-center py-10 text-gray-400 hidden">No trips recorded yet.</p>
+                <div id="log-loading" class="absolute inset-0 bg-white flex items-center justify-center z-10">
+                    <span class="text-gray-400 animate-pulse">Syncing data...</span>
+                </div>
             </div>
             
-            <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <button id="export-btn" class="px-6 py-3 bg-secondary text-white font-medium rounded-lg shadow-md hover:bg-secondary/90 transition duration-150">
-                    Export to Excel (CSV)
-                </button>
-                <button id="install-pwa-btn" class="px-6 py-3 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-primary/90 transition duration-150">
-                    Install App Shortcut
-                </button>
-                <button id="clear-data-btn" class="px-6 py-3 bg-red-500 text-white font-medium rounded-lg shadow-md hover:bg-red-600 transition duration-150">
-                    Clear All Data
+            <div class="mt-4 flex justify-end">
+                 <button id="clear-data-btn" class="text-xs text-red-400 hover:text-red-600 underline">
+                    Clear Database
                 </button>
             </div>
         </div>
 
         <!-- Custom Alert/Modal Area -->
-        <div id="alert-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden z-50 items-center justify-center">
-            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full space-y-4">
+        <div id="alert-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden z-50 items-center justify-center p-4">
+            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full space-y-4 transform transition-all scale-100">
                 <h3 id="alert-title" class="text-xl font-bold text-gray-800"></h3>
                 <p id="alert-message" class="text-gray-600"></p>
                 <button id="alert-close-btn" class="w-full py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition">
@@ -209,45 +257,40 @@
             </div>
         </div>
 
-        <!-- Confirmation Modal for Clearing Data -->
-        <div id="confirm-clear-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden z-50 items-center justify-center">
+        <!-- Confirmation Modal -->
+        <div id="confirm-clear-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden z-50 items-center justify-center p-4">
             <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full space-y-4">
                 <h3 class="text-xl font-bold text-red-600">Confirmation Required</h3>
-                <p class="text-gray-600">Are you sure you want to permanently clear ALL saved fuel prices, last odometer readings, and trip history? This action cannot be undone.</p>
+                <p class="text-gray-600">Are you sure? This action cannot be undone.</p>
                 <div class="flex justify-end space-x-3">
                     <button id="confirm-no-btn" class="py-2 px-4 bg-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-400 transition">
-                        No, Cancel
+                        Cancel
                     </button>
                     <button id="confirm-yes-btn" class="py-2 px-4 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition">
-                        Yes, Clear Data
+                        Confirm
                     </button>
                 </div>
             </div>
         </div>
         
-        <!-- EDIT TRIP MODAL (New) -->
+        <!-- EDIT TRIP MODAL -->
         <div id="edit-trip-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden z-50 items-center justify-center p-4">
-            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-lg w-full space-y-5">
-                <h3 class="text-2xl font-bold text-primary border-b pb-2">Edit Trip Entry</h3>
+            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-md w-full space-y-5">
+                <h3 class="text-xl font-bold text-primary border-b pb-2">Edit Trip Entry</h3>
                 <input type="hidden" id="edit-trip-id">
 
                 <div class="space-y-4">
-                    <!-- Date Input -->
                     <div>
                         <label for="edit-date" class="block text-sm font-medium text-gray-700">Fuel-up Date</label>
-                        <input type="date" id="edit-date" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                        <input type="date" id="edit-date" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                     </div>
-
-                    <!-- Odometer Input -->
                     <div>
                         <label for="edit-odo-reading" class="block text-sm font-medium text-gray-700">Odometer Reading (km)</label>
-                        <input type="number" id="edit-odo-reading" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                        <input type="number" id="edit-odo-reading" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                     </div>
-                    
-                    <!-- Amount Paid Input -->
                     <div>
-                        <label for="edit-amount-paid" class="block text-sm font-medium text-gray-700">Amount Paid (Currency)</label>
-                        <input type="number" id="edit-amount-paid" step="0.01" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                        <label for="edit-amount-paid" class="block text-sm font-medium text-gray-700">Amount Paid</label>
+                        <input type="number" id="edit-amount-paid" step="0.01" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                     </div>
                 </div>
 
@@ -256,7 +299,7 @@
                         Cancel
                     </button>
                     <button id="update-edit-btn" class="py-2 px-4 bg-secondary text-white font-medium rounded-lg shadow-md hover:bg-secondary/90 transition">
-                        Update Trip Log
+                        Update
                     </button>
                 </div>
             </div>
@@ -264,25 +307,44 @@
 
     </div>
 
-    <script>
-        // --- CONSTANTS AND INITIALIZATION ---
-        const FUEL_PRICE_KEY = 'mileageTracker_fuelPrice';
-        const LAST_ODO_KEY = 'mileageTracker_lastOdometer';
-        const TRIP_LOG_KEY = 'mileageTracker_tripLog';
-        
+    <!-- Firebase Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, addDoc, deleteDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+
+        // --- FIREBASE CONFIG ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDPNl12gILSemEuQikoJNR8fzNSVkNL640",
+            authDomain: "fuel-tracker-92290.firebaseapp.com",
+            projectId: "fuel-tracker-92290",
+            storageBucket: "fuel-tracker-92290.firebasestorage.app",
+            messagingSenderId: "237133902978",
+            appId: "1:237133902978:web:bf3f3249636b7caf39b09b",
+            measurementId: "G-EJZXT5BXW3"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // --- STATE & VARS ---
         let deferredPrompt; 
+        let mileageChartInstance = null;
+        let currentUser = null;
+        let currentTrips = []; // Local mirror of Firestore data
+        let currentFuelPrice = 0;
 
-        // Mock URL - REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT URL
-        const GOOGLE_SHEETS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwNS630TU1Os-oV6BG4bG_fIGGhq34SymQ8TTxzuVgGQzgsBe8h0Aw5X0FDM_W636mA/exec'; 
-
-        // DOM Elements
+        // --- DOM ELEMENTS ---
         const Elements = { 
-            // Price Input
+            // Inputs
             fuelPriceInput: document.getElementById('fuel-price'),
             savePriceBtn: document.getElementById('save-price-btn'),
             currentPriceDisplay: document.getElementById('current-price-display'),
-
-            // Trip Input
             tripDateInput: document.getElementById('trip-date'), 
             odoReadingInput: document.getElementById('odo-reading'),
             amountPaidInput: document.getElementById('amount-paid'),
@@ -290,30 +352,36 @@
             lastOdoDisplay: document.getElementById('last-odo-display'),
             litersDisplay: document.getElementById('liters-purchased-display'),
             
-            // Results
+            // Results & Stats
             resultDistance: document.getElementById('result-distance'),
             resultMileage: document.getElementById('result-mileage'),
             firstTripMessage: document.getElementById('first-trip-message'),
+            statTotalCost: document.getElementById('stat-total-cost'),
+            statAvgMileage: document.getElementById('stat-avg-mileage'),
+            statTotalDistance: document.getElementById('stat-total-distance'),
 
-            // Log & Export
+            // UI Components
             tripLogBody: document.getElementById('trip-log-body'),
             exportBtn: document.getElementById('export-btn'),
             installPWABtn: document.getElementById('install-pwa-btn'),
             clearDataBtn: document.getElementById('clear-data-btn'),
             noDataMessage: document.getElementById('no-data-message'),
+            userIdDisplay: document.getElementById('user-id-display'),
+            
+            // Loading
+            tripLoading: document.getElementById('trip-loading'),
+            logLoading: document.getElementById('log-loading'),
 
-            // Modal
+            // Modals
             alertModal: document.getElementById('alert-modal'),
             alertTitle: document.getElementById('alert-title'),
             alertMessage: document.getElementById('alert-message'),
             alertCloseBtn: document.getElementById('alert-close-btn'),
-            
-            // Confirmation Modal Elements
             confirmClearModal: document.getElementById('confirm-clear-modal'),
             confirmYesBtn: document.getElementById('confirm-yes-btn'),
             confirmNoBtn: document.getElementById('confirm-no-btn'),
-
-            // NEW: Edit Modal Elements
+            
+            // Edit Modal
             editModal: document.getElementById('edit-trip-modal'),
             editTripId: document.getElementById('edit-trip-id'),
             editDate: document.getElementById('edit-date'),
@@ -322,273 +390,203 @@
             updateEditBtn: document.getElementById('update-edit-btn'),
             cancelEditBtn: document.getElementById('cancel-edit-btn'),
         };
-        
-        // --- HELPER FUNCTIONS ---
 
-        /** Utility to retrieve the log and parse it. */
-        function getTripLog() {
-            return JSON.parse(localStorage.getItem(TRIP_LOG_KEY) || '[]');
-        }
+        // --- AUTH & INIT ---
+        const initAuth = async () => {
+            // FORCE ANONYMOUS AUTH ONLY to avoid token mismatch with environment token
+            await signInAnonymously(auth).catch(err => {
+                console.error("Auth failed:", err);
+                showAlert("Auth Error", "Could not sign in anonymously. Please check Firebase Console > Auth > Sign-in method.");
+            });
+        };
 
-        /** Utility to save the log and update the last odometer. */
-        function saveTripLog(log) {
-            // Sort by Odometer ascending, just in case
-            log.sort((a, b) => b.odo - a.odo); 
-            localStorage.setItem(TRIP_LOG_KEY, JSON.stringify(log));
-
-            // Update last Odometer
-            if (log.length > 0) {
-                localStorage.setItem(LAST_ODO_KEY, log[0].odo);
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                Elements.userIdDisplay.textContent = `ID: ${user.uid.slice(0,6)}...`;
+                initDataListeners();
             } else {
-                localStorage.removeItem(LAST_ODO_KEY);
+                Elements.userIdDisplay.textContent = 'Disconnected';
             }
-        }
+        });
 
-        /** Utility to assign a pseudo-unique ID for local use. */
-        function generateUniqueId() {
-            // Use time plus a random component for a locally unique string
-            return Date.now().toString(36) + Math.random().toString(36).substring(2, 7);
-        }
-        
-        /** Shows a custom modal alert. */
-        function showAlert(title, message) {
-            Elements.alertTitle.textContent = title;
-            Elements.alertMessage.innerHTML = message; // Use innerHTML to allow for bold markdown
-            Elements.alertModal.classList.remove('hidden');
-            Elements.alertModal.classList.add('flex');
-        }
+        initAuth();
 
-        /** Hides the custom modal alert. */
-        function hideAlert() {
-            Elements.alertModal.classList.add('hidden');
-            Elements.alertModal.classList.remove('flex');
-        }
-        
-        /** Clears all calculation results and inputs. */
-        function clearResults() {
-            Elements.resultDistance.textContent = '0';
-            Elements.resultMileage.textContent = '0.00';
-            Elements.litersDisplay.textContent = '0.00';
-            Elements.odoReadingInput.value = '';
-            Elements.amountPaidInput.value = '';
-        }
+        // --- FIRESTORE LISTENERS ---
+        function initDataListeners() {
+            if (!currentUser) return;
+            const userId = currentUser.uid;
 
-        /**
-         * Provides guidance on how to install the app shortcut (PWA) or shows native prompt.
-         */
-        function promptInstallGuidance() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        showAlert("Installation Complete", "The app shortcut has been successfully added to your device!");
-                    } else {
-                        showAlert("Installation Canceled", "You chose not to install the app.");
+            // 1. Listen to Settings (Price)
+            // Path: /artifacts/{appId}/users/{userId}/data/settings
+            const settingsRef = doc(db, 'artifacts', appId, 'users', userId, 'data', 'settings');
+            onSnapshot(settingsRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data.price) {
+                        currentFuelPrice = parseFloat(data.price);
+                        Elements.fuelPriceInput.value = currentFuelPrice.toFixed(2);
+                        Elements.currentPriceDisplay.textContent = `Price: ${currentFuelPrice.toFixed(2)} / L`;
                     }
-                    deferredPrompt = null; 
-                });
-                return;
-            }
+                } else {
+                    Elements.currentPriceDisplay.textContent = 'Please set price.';
+                }
+            });
 
-            // Fallback: Show manual guidance
-            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-            let guidance = "The native install prompt is unavailable right now. To install this app, open your browser's main menu (usually 3 dots/lines) and select **'Install app'** or **'Add to Home Screen'**.";
+            // 2. Listen to Trips
+            // Path: /artifacts/{appId}/users/{userId}/trips
+            const tripsRef = collection(db, 'artifacts', appId, 'users', userId, 'trips');
             
-            if (!isMobile) {
-                guidance = "The native install prompt is unavailable right now. To install this app shortcut on desktop, look for the install icon in your browser's address bar (usually a plus sign or computer monitor icon), or open your browser's menu (usually 3 dots) and select **'Install app'**.";
-            }
-
-            showAlert("Install App Shortcut Ready", guidance);
-        }
-
-        /**
-         * Sends trip data to a Google Apps Script Web App for saving to Google Sheets.
-         * @param {object} tripData The trip object to send.
-         */
-        async function sendToGoogleSheets(tripData) {
-            if (GOOGLE_SHEETS_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL') {
-                console.warn("Google Sheets Integration Warning: Please update GOOGLE_SHEETS_SCRIPT_URL with your actual deployed script URL.");
-                return;
-            }
-
-            try {
-                const response = await fetch(GOOGLE_SHEETS_SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(tripData),
-                    mode: 'no-cors', 
-                    headers: { 'Content-Type': 'application/json' }
-                });
+            onSnapshot(tripsRef, (snapshot) => {
+                // Fetch and sort in memory (Rule 2: No complex queries)
+                currentTrips = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
                 
-                console.log('Data fetch sent to Google Sheet endpoint.');
-                
-            } catch (error) {
-                console.error('Error attempting to send data to Google Sheets:', error);
-            }
-        }
+                // Sort Descending by Odometer for list
+                currentTrips.sort((a, b) => b.odo - a.odo);
 
+                // Recalculate derived data (Distance/Mileage) dynamically based on current set
+                recalculateDerivedData(currentTrips);
+                
+                renderTripLog(currentTrips);
+                updateStats(currentTrips);
+                updateChart(currentTrips);
+                updateLastOdoDisplay();
+                
+                Elements.logLoading.classList.add('hidden'); // Hide loading spinner
+            }, (error) => {
+                console.error("Error fetching trips:", error);
+                showAlert("Sync Error", "Could not fetch data.");
+            });
+        }
 
         // --- LOGIC FUNCTIONS ---
-
-        /** Renders the current fuel price and last odometer reading from storage. */
-        function renderInitialState() {
-            const price = localStorage.getItem(FUEL_PRICE_KEY) || 'Not Set';
-            const lastOdo = localStorage.getItem(LAST_ODO_KEY) || 'N/A';
-            
-            if (price !== 'Not Set') {
-                Elements.fuelPriceInput.value = price;
-                Elements.currentPriceDisplay.textContent = `Current Price: ${parseFloat(price).toFixed(2)} per Liter.`;
-            } else {
-                Elements.currentPriceDisplay.textContent = 'Please set the price first.';
-            }
-
-            Elements.lastOdoDisplay.textContent = `Last Odo Reading: ${lastOdo} km.`;
-            
-            // Set default date to today for convenience (YYYY-MM-DD format)
-            const today = new Date().toISOString().slice(0, 10); 
-            Elements.tripDateInput.value = today;
-
-            renderTripLog();
-        }
         
-        /** Saves the user-entered fuel price to local storage. */
-        function saveFuelPrice() {
-            const price = parseFloat(Elements.fuelPriceInput.value);
-            if (isNaN(price) || price <= 0) {
-                showAlert("Input Error", "Please enter a valid fuel price (a positive number).");
-                return;
+        function updateLastOdoDisplay() {
+            if (currentTrips.length > 0) {
+                // Since currentTrips is sorted Descending, index 0 is max
+                Elements.lastOdoDisplay.textContent = `Last: ${currentTrips[0].odo} km`;
+            } else {
+                Elements.lastOdoDisplay.textContent = 'No history.';
             }
-            
-            localStorage.setItem(FUEL_PRICE_KEY, price.toFixed(2));
-            renderInitialState(); // Refresh the display
-            Elements.fuelPriceInput.value = price.toFixed(2);
-            showAlert("Success", `Fuel price saved: ${price.toFixed(2)} per Liter.`);
         }
 
-        /** Calculates the liters purchased based on amount paid and saved fuel price. */
-        function updateLitersPurchased() {
-            const price = parseFloat(localStorage.getItem(FUEL_PRICE_KEY));
-            const amount = parseFloat(Elements.amountPaidInput.value);
+        // Re-runs calculation logic on the entire array to ensure consistency if a middle entry is deleted
+        function recalculateDerivedData(trips) {
+            // Sort Ascending for calculation
+            const sortedAsc = [...trips].sort((a, b) => a.odo - b.odo);
             
-            if (isNaN(price) || price <= 0) {
-                Elements.litersDisplay.textContent = '0.00';
-                return;
-            }
-            if (isNaN(amount) || amount <= 0) {
-                Elements.litersDisplay.textContent = '0.00';
-                return;
-            }
-
-            const liters = amount / price;
-            Elements.litersDisplay.textContent = liters.toFixed(2);
-        }
-
-        /** Recalculates all dependent trip data based on the current trip log. */
-        function recalculateTripLog(log) {
-            // Sort log ascending by ODO reading to process chronologically
-            log.sort((a, b) => a.odo - b.odo); 
-
-            for (let i = 0; i < log.length; i++) {
-                const currentTrip = log[i];
-                const prevTrip = log[i - 1];
+            for (let i = 0; i < sortedAsc.length; i++) {
+                const current = sortedAsc[i];
+                const prev = sortedAsc[i-1];
                 
-                // Recalculate liters (in case price changed, though price is saved globally)
-                const price = parseFloat(localStorage.getItem(FUEL_PRICE_KEY));
-                currentTrip.liters = currentTrip.amount / price;
-
-                if (prevTrip) {
-                    currentTrip.distance = currentTrip.odo - prevTrip.odo;
-                    currentTrip.mileage = currentTrip.distance / currentTrip.liters;
+                // Use the stored liters or calculate if missing. 
+                // Note: We don't update Firestore here, just local display values
+                
+                if (prev) {
+                    current.calcDistance = current.odo - prev.odo;
+                    current.calcMileage = current.calcDistance / current.liters;
                 } else {
-                    // First trip in the log, no prior data for distance/mileage
-                    currentTrip.distance = 0;
-                    currentTrip.mileage = 0;
+                    current.calcDistance = 0;
+                    current.calcMileage = 0;
                 }
             }
-            // Sort back to descending order for display
-            log.sort((a, b) => b.odo - a.odo);
-            return log;
+            
+            // Map calculations back to the main descending array
+            trips.forEach(t => {
+                const calced = sortedAsc.find(x => x.id === t.id);
+                t.distance = calced.calcDistance;
+                t.mileage = calced.calcMileage;
+            });
         }
 
-        /** Handles the main trip saving and calculation logic. */
-        function saveTrip() {
+        async function saveFuelPrice() {
+            if (!currentUser) return;
+            const price = parseFloat(Elements.fuelPriceInput.value);
+            if (isNaN(price) || price <= 0) return showAlert("Error", "Enter a valid price.");
+
+            const btn = Elements.savePriceBtn;
+            btn.textContent = "Saving...";
+            
+            try {
+                const settingsRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'data', 'settings');
+                await setDoc(settingsRef, { price: price }, { merge: true });
+                
+                btn.textContent = "Saved!";
+                btn.classList.add('bg-green-500');
+                setTimeout(() => {
+                    btn.textContent = "Save";
+                    btn.classList.remove('bg-green-500');
+                }, 1500);
+            } catch (e) {
+                console.error(e);
+                showAlert("Error", "Could not save price.");
+                btn.textContent = "Save";
+            }
+        }
+
+        function updateLitersPurchased() {
+            const amount = parseFloat(Elements.amountPaidInput.value);
+            if (currentFuelPrice > 0 && amount > 0) {
+                const liters = amount / currentFuelPrice;
+                Elements.litersDisplay.textContent = liters.toFixed(2);
+            } else {
+                Elements.litersDisplay.textContent = '0.00';
+            }
+        }
+
+        async function saveTrip() {
+            if (!currentUser) return;
+            
             const currentOdo = parseFloat(Elements.odoReadingInput.value);
             const amountPaid = parseFloat(Elements.amountPaidInput.value);
             const inputDate = Elements.tripDateInput.value;
             
-            const price = parseFloat(localStorage.getItem(FUEL_PRICE_KEY));
-            const lastOdo = parseFloat(localStorage.getItem(LAST_ODO_KEY));
+            // Validation
+            if (currentFuelPrice <= 0) return showAlert("Missing Price", "Please save fuel price first.");
+            if (!inputDate) return showAlert("Missing Date", "Select date.");
+            if (isNaN(currentOdo) || currentOdo <= 0) return showAlert("Error", "Invalid odometer reading.");
+            if (isNaN(amountPaid) || amountPaid <= 0) return showAlert("Error", "Invalid amount.");
 
-            // 1. Input Validation
-            if (isNaN(price) || price <= 0) {
-                showAlert("Missing Price", "Please save the current fuel price before logging a trip.");
-                return;
-            }
-            if (!inputDate) {
-                showAlert("Missing Date", "Please select the fuel-up date.");
-                return;
-            }
-            if (isNaN(currentOdo) || currentOdo <= 0) {
-                showAlert("Input Error", "Please enter a valid, positive odometer reading.");
-                return;
-            }
-            if (lastOdo && currentOdo <= lastOdo) {
-                showAlert("Odometer Error", `Latest odometer (${currentOdo}) must be greater than the last recorded odometer (${lastOdo}).`);
-                return;
-            }
-            if (isNaN(amountPaid) || amountPaid <= 0) {
-                showAlert("Input Error", "Please enter a valid, positive amount paid.");
-                return;
+            // Check against last Odo
+            if (currentTrips.length > 0) {
+                const lastOdo = currentTrips[0].odo; // Sorted Descending
+                if (currentOdo <= lastOdo) return showAlert("Error", `New odometer must be > ${lastOdo}.`);
             }
 
-            // 2. Core Calculations
-            const liters = amountPaid / price;
-            let distance = 0;
-            let mileage = 0;
+            const liters = amountPaid / currentFuelPrice;
 
-            if (!isNaN(lastOdo)) {
+            Elements.tripLoading.classList.remove('hidden');
+
+            try {
+                const tripsRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'trips');
+                await addDoc(tripsRef, {
+                    date: inputDate,
+                    odo: currentOdo,
+                    amount: amountPaid,
+                    liters: liters,
+                    createdAt: new Date().toISOString()
+                });
+
+                // Clear Form
+                Elements.odoReadingInput.value = '';
+                Elements.amountPaidInput.value = '';
+                Elements.litersDisplay.textContent = '0.00';
                 Elements.firstTripMessage.classList.add('hidden');
-                distance = currentOdo - lastOdo;
-                mileage = distance / liters;
-            } else {
-                Elements.firstTripMessage.classList.remove('hidden');
+
+            } catch (e) {
+                console.error(e);
+                showAlert("Error", "Could not save trip.");
+            } finally {
+                Elements.tripLoading.classList.add('hidden');
             }
-
-            // 3. Create Trip Object
-            const newTrip = {
-                id: generateUniqueId(), // New: Unique ID for editing/deleting
-                date: inputDate, 
-                odo: currentOdo,
-                liters: liters,
-                amount: amountPaid,
-                distance: distance,
-                mileage: mileage
-            };
-
-            // 4. Update Local Storage Log (using utility functions)
-            let tripLog = getTripLog();
-            tripLog.push(newTrip); // Push to array
-            saveTripLog(tripLog); // Sorts and saves
-
-            // 5. Update UI
-            renderInitialState(); 
-            clearResults(); 
-
-            // 6. Display Results
-            Elements.resultDistance.textContent = distance.toFixed(0);
-            Elements.resultMileage.textContent = mileage.toFixed(2);
-            showAlert("Trip Logged!", `Mileage: ${mileage.toFixed(2)} km/L. Data saved locally and sync attempted.`);
-
-            // 7. Send to Google Sheets (Async)
-            sendToGoogleSheets(newTrip);
         }
-        
-        /** Clears the local log and re-renders the table. */
-        function renderTripLog() {
-            const tripLog = getTripLog();
-            Elements.tripLogBody.innerHTML = ''; // Clear existing rows
 
-            if (tripLog.length === 0) {
+        // --- RENDER & STATS ---
+
+        function renderTripLog(trips) {
+            Elements.tripLogBody.innerHTML = ''; 
+
+            if (trips.length === 0) {
                 Elements.noDataMessage.classList.remove('hidden');
                 Elements.resultDistance.textContent = '0';
                 Elements.resultMileage.textContent = '0.00';
@@ -598,27 +596,35 @@
 
             Elements.noDataMessage.classList.add('hidden');
             
-            tripLog.forEach((trip, index) => {
+            // Display latest calculated stats in the top card
+            if (trips.length > 0 && trips[0].distance >= 0) {
+                Elements.resultDistance.textContent = trips[0].distance.toFixed(0);
+                Elements.resultMileage.textContent = trips[0].mileage.toFixed(2);
+                Elements.firstTripMessage.classList.add('hidden');
+            }
+
+            trips.forEach((trip) => {
                 const row = Elements.tripLogBody.insertRow();
                 row.className = 'hover:bg-gray-50 transition duration-100';
                 
-                // Format values for display
-                const distanceDisplay = trip.distance > 0 ? trip.distance.toFixed(0) : '—';
-                const mileageDisplay = trip.mileage > 0 ? trip.mileage.toFixed(2) : '—';
+                const distanceDisplay = trip.distance > 0 ? trip.distance.toFixed(0) : '-';
+                const mileageDisplay = trip.mileage > 0 ? trip.mileage.toFixed(2) : '-';
                 
-                // Format the date for display
                 let dateDisplay = trip.date;
                 try {
-                    dateDisplay = new Date(trip.date + 'T00:00:00').toLocaleDateString('en-US');
+                    const d = new Date(trip.date);
+                    // Adjust for timezone offset to prevent date shift
+                    const userTimezoneOffset = d.getTimezoneOffset() * 60000;
+                    const adjustedDate = new Date(d.getTime() + userTimezoneOffset);
+                    dateDisplay = `${adjustedDate.getDate()}/${adjustedDate.getMonth()+1}/${adjustedDate.getFullYear().toString().substr(-2)}`;
                 } catch (e) {}
-
 
                 const cells = [
                     dateDisplay, 
                     trip.odo.toFixed(0),
                     distanceDisplay,
-                    trip.amount.toFixed(2),
-                    trip.liters.toFixed(2),
+                    trip.amount.toFixed(0),
+                    trip.liters.toFixed(1),
                     mileageDisplay
                 ];
 
@@ -628,80 +634,109 @@
                     cell.className = 'px-4 py-3 whitespace-nowrap text-gray-700';
                 });
                 
-                // Add Actions Cell (New)
+                // Actions
                 const actionCell = row.insertCell();
                 actionCell.className = 'px-4 py-3 whitespace-nowrap text-right font-medium space-x-2';
 
-                // Edit Button
                 const editBtn = document.createElement('button');
-                editBtn.textContent = 'Edit';
-                editBtn.className = 'text-primary hover:text-indigo-800 transition text-xs font-semibold';
+                editBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>';
+                editBtn.className = 'text-primary hover:text-indigo-800 p-1';
                 editBtn.onclick = () => openEditModal(trip.id);
                 actionCell.appendChild(editBtn);
 
-                // Delete Button
                 const deleteBtn = document.createElement('button');
-                deleteBtn.textContent = 'Delete';
-                deleteBtn.className = 'text-red-500 hover:text-red-700 transition text-xs font-semibold ml-2';
+                deleteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>';
+                deleteBtn.className = 'text-red-400 hover:text-red-600 p-1';
                 deleteBtn.onclick = () => confirmDeleteTrip(trip.id);
                 actionCell.appendChild(deleteBtn);
             });
-
-            // Ensure the last calculated mileage is shown
-            if (tripLog.length > 0 && tripLog[0].distance >= 0) {
-                Elements.resultDistance.textContent = tripLog[0].distance.toFixed(0);
-                Elements.resultMileage.textContent = tripLog[0].mileage.toFixed(2);
-                Elements.firstTripMessage.classList.add('hidden');
-            }
         }
-        
-        // --- EDIT/DELETE LOGIC ---
 
-        /** Shows the delete confirmation modal. */
+        function updateStats(trips) {
+            if (!trips || trips.length === 0) {
+                Elements.statTotalCost.textContent = '0.00';
+                Elements.statAvgMileage.textContent = '0.00';
+                Elements.statTotalDistance.textContent = '0';
+                return;
+            }
+
+            const totalCost = trips.reduce((sum, trip) => sum + trip.amount, 0);
+            const totalDistance = trips.reduce((sum, trip) => sum + (trip.distance || 0), 0);
+            const totalLiters = trips.reduce((sum, trip) => sum + trip.liters, 0);
+            const avgMileage = totalLiters > 0 ? (totalDistance / totalLiters) : 0;
+
+            Elements.statTotalCost.textContent = totalCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            Elements.statTotalDistance.textContent = totalDistance.toLocaleString();
+            Elements.statAvgMileage.innerHTML = `${avgMileage.toFixed(2)} <span class="text-sm font-normal text-gray-500">km/L</span>`;
+        }
+
+        function updateChart(trips) {
+            const ctx = document.getElementById('mileageChart').getContext('2d');
+            
+            // Sort Chronologically for Chart
+            const chartData = [...trips].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const validData = chartData.filter(d => d.mileage > 0 && d.mileage < 100); 
+
+            const labels = validData.map(d => {
+                const date = new Date(d.date);
+                return `${date.getDate()}/${date.getMonth()+1}`;
+            });
+            const dataPoints = validData.map(d => d.mileage);
+
+            if (mileageChartInstance) {
+                mileageChartInstance.destroy();
+            }
+
+            mileageChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Mileage (km/L)',
+                        data: dataPoints,
+                        borderColor: '#4F46E5', 
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#4F46E5',
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: false, grid: { borderDash: [2, 4] } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // --- EDIT/DELETE OPERATIONS ---
+
         function confirmDeleteTrip(id) {
-            // Re-use the existing confirm modal for clearing data
             Elements.confirmClearModal.querySelector('h3').textContent = 'Confirm Delete';
-            Elements.confirmClearModal.querySelector('p').innerHTML = 'Are you sure you want to permanently delete this trip entry? This cannot be undone.';
-            
-            // Set the confirmation button to call the delete function
-            Elements.confirmYesBtn.onclick = () => {
-                deleteTrip(id);
+            Elements.confirmClearModal.querySelector('p').innerHTML = 'Delete this trip entry?';
+            Elements.confirmYesBtn.onclick = async () => {
+                try {
+                    await deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'trips', id));
+                    showAlert("Deleted", "Trip removed.");
+                } catch(e) {
+                    showAlert("Error", "Could not delete trip.");
+                }
                 Elements.confirmClearModal.classList.add('hidden');
             };
-            
-            // Set the cancel button to hide the modal
-            Elements.confirmNoBtn.onclick = () => {
-                Elements.confirmClearModal.classList.add('hidden');
-            };
-
+            Elements.confirmNoBtn.onclick = () => Elements.confirmClearModal.classList.add('hidden');
             Elements.confirmClearModal.classList.remove('hidden');
             Elements.confirmClearModal.classList.add('flex');
         }
 
-        /** Deletes a trip by ID, recalculates and re-renders the log. */
-        function deleteTrip(id) {
-            let log = getTripLog();
-            
-            // Filter out the trip to delete
-            log = log.filter(trip => trip.id !== id);
-            
-            // Recalculate the entire log since gaps may have been introduced
-            log = recalculateTripLog(log);
-            
-            saveTripLog(log);
-            renderInitialState();
-            showAlert("Trip Deleted", "The entry has been successfully removed.");
-        }
-
-        /** Opens the Edit Modal and pre-fills it with the selected trip's data. */
         function openEditModal(id) {
-            const log = getTripLog();
-            const trip = log.find(t => t.id === id);
-
-            if (!trip) {
-                showAlert("Error", "Trip ID not found.");
-                return;
-            }
+            const trip = currentTrips.find(t => t.id === id);
+            if (!trip) return;
 
             Elements.editTripId.value = trip.id;
             Elements.editDate.value = trip.date;
@@ -712,70 +747,105 @@
             Elements.editModal.classList.add('flex');
         }
 
-        /** Handles the logic for updating an edited trip entry. */
-        function updateEditedTrip() {
+        async function updateEditedTrip() {
+            if (!currentUser) return;
             const id = Elements.editTripId.value;
             const newDate = Elements.editDate.value;
             const newOdo = parseFloat(Elements.editOdo.value);
             const newAmount = parseFloat(Elements.editAmount.value);
-            const price = parseFloat(localStorage.getItem(FUEL_PRICE_KEY));
+            
+            if (isNaN(newOdo) || newOdo <= 0 || isNaN(newAmount) || newAmount <= 0) return showAlert("Error", "Invalid values.");
+            
+            // Recalculate liters based on CURRENT price. 
+            // NOTE: In a robust app, we might want to preserve the original liters or ask the user, 
+            // but for simplicity, we assume they paid X amount at the current rate if they are editing now, 
+            // or we could assume the original price. 
+            // Let's stick to simple: if they edit amount, liters change based on current stored price.
+            if(currentFuelPrice <= 0) return showAlert("Error", "Fuel price missing.");
+            const newLiters = newAmount / currentFuelPrice;
 
-            // Basic validation
-            if (isNaN(newOdo) || newOdo <= 0 || isNaN(newAmount) || newAmount <= 0) {
-                showAlert("Input Error", "Please ensure Odometer and Amount Paid are valid positive numbers.");
-                return;
+            try {
+                const tripRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'trips', id);
+                await updateDoc(tripRef, {
+                    date: newDate,
+                    odo: newOdo,
+                    amount: newAmount,
+                    liters: newLiters
+                });
+                
+                Elements.editModal.classList.add('hidden');
+                showAlert("Updated", "Trip updated.");
+            } catch(e) {
+                showAlert("Error", "Update failed.");
             }
-            if (isNaN(price) || price <= 0) {
-                showAlert("Missing Price", "Fuel price is missing. Cannot calculate liters/mileage.");
-                return;
-            }
-
-            let log = getTripLog();
-            const tripIndex = log.findIndex(t => t.id === id);
-
-            if (tripIndex === -1) {
-                showAlert("Error", "Cannot find trip to update.");
-                return;
-            }
-
-            // 1. Update the target trip object
-            const updatedTrip = log[tripIndex];
-            updatedTrip.date = newDate;
-            updatedTrip.odo = newOdo;
-            updatedTrip.amount = newAmount;
-
-            // 2. Recalculate the entire log (necessary to fix subsequent trips' distance/mileage)
-            log = recalculateTripLog(log);
-
-            // 3. Save, update UI, and close modal
-            saveTripLog(log);
-            renderInitialState();
-            Elements.editModal.classList.add('hidden');
-            showAlert("Update Successful", "The trip entry has been updated and mileage recalculated.");
         }
 
-
-        /** Exports the entire trip log to a CSV file (Excel compatible). */
-        function exportToCSV() {
-            const tripLog = getTripLog();
+        async function clearAllData() {
+            if (!currentUser) return;
+            Elements.confirmClearModal.querySelector('h3').textContent = 'Clear All Data?';
+            Elements.confirmClearModal.querySelector('p').innerHTML = 'This will permanently delete all logs from the cloud.';
             
-            if (tripLog.length === 0) {
-                showAlert("Export Failed", "There is no data saved to export.");
+            Elements.confirmYesBtn.onclick = async () => {
+                Elements.confirmClearModal.classList.add('hidden');
+                Elements.logLoading.classList.remove('hidden');
+                try {
+                    // Firestore doesn't support "delete collection", so we must delete docs one by one
+                    const promises = currentTrips.map(t => 
+                        deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'trips', t.id))
+                    );
+                    await Promise.all(promises);
+                    showAlert("Cleared", "All data wiped from cloud.");
+                } catch(e) {
+                    showAlert("Error", "Partial failure clearing data.");
+                } finally {
+                    Elements.logLoading.classList.add('hidden');
+                }
+            };
+            Elements.confirmNoBtn.onclick = () => Elements.confirmClearModal.classList.add('hidden');
+
+            Elements.confirmClearModal.classList.remove('hidden');
+            Elements.confirmClearModal.classList.add('flex');
+        }
+        
+        // --- UTILS ---
+        function showAlert(title, message) {
+            Elements.alertTitle.textContent = title;
+            Elements.alertMessage.innerHTML = message;
+            Elements.alertModal.classList.remove('hidden');
+            Elements.alertModal.classList.add('flex');
+        }
+
+        function hideAlert() {
+            Elements.alertModal.classList.add('hidden');
+            Elements.alertModal.classList.remove('flex');
+        }
+
+        function promptInstallGuidance() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showAlert("Installation Complete", "App shortcut added!");
+                    } else {
+                        deferredPrompt = null; 
+                    }
+                });
                 return;
             }
+            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+            let guidance = "Tap your browser menu and select **'Add to Home Screen'** or **'Install App'**.";
+            if (!isMobile) guidance = "Look for the install icon in your address bar or browser menu.";
+            showAlert("Install App", guidance);
+        }
 
-            // Define column headers
-            let csv = 'Date,Odometer (km),Distance (km),Amount Paid,Liters Purchased (L),Mileage (km/L)\n'; 
-            
-            // Add data rows
-            tripLog.forEach(trip => {
-                const distanceExport = trip.distance > 0 ? trip.distance.toFixed(2) : '0';
-                const mileageExport = trip.mileage > 0 ? trip.mileage.toFixed(2) : '0';
+        function exportToCSV() {
+            if (currentTrips.length === 0) return showAlert("Failed", "No data to export.");
 
-                csv += `${trip.date},${trip.odo.toFixed(2)},${distanceExport},${trip.amount.toFixed(2)},${trip.liters.toFixed(2)},${mileageExport}\n`;
+            let csv = 'Date,Odo,Distance,Amount,Liters,Mileage\n'; 
+            currentTrips.forEach(trip => {
+                csv += `${trip.date},${trip.odo},${trip.distance},${trip.amount},${trip.liters},${trip.mileage}\n`;
             });
 
-            // Trigger download
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
@@ -783,83 +853,36 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            showAlert("Export Complete", "Your mileage log has been downloaded as a CSV file.");
         }
 
-        /** Executes the data clearing logic. */
-        function executeClearData() {
-            localStorage.removeItem(FUEL_PRICE_KEY);
-            localStorage.removeItem(LAST_ODO_KEY);
-            localStorage.removeItem(TRIP_LOG_KEY);
-            
-            Elements.confirmClearModal.classList.add('hidden');
-            Elements.confirmClearModal.classList.remove('flex');
-            
-            // Reset modal button functionality back to default 'Clear All'
-            Elements.confirmYesBtn.onclick = executeClearData; 
-            Elements.confirmNoBtn.onclick = () => Elements.confirmClearModal.classList.add('hidden');
+        // --- INIT EVENT LISTENERS ---
+        // Set Default Date
+        Elements.tripDateInput.value = new Date().toISOString().slice(0, 10);
 
-            renderInitialState();
-            clearResults();
-            showAlert("Data Cleared", "All data has been wiped from your browser's storage.");
-        }
+        // PWA
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
 
-        /** Clears all data from local storage. */
-        function clearAllData() {
-            // Reset modal appearance and text for 'Clear All'
-            Elements.confirmClearModal.querySelector('h3').textContent = 'Confirmation Required';
-            Elements.confirmClearModal.querySelector('p').innerHTML = 'Are you sure you want to permanently clear ALL saved fuel prices, last odometer readings, and trip history? This action cannot be undone.';
-            
-            Elements.confirmYesBtn.onclick = executeClearData;
-            Elements.confirmNoBtn.onclick = () => Elements.confirmClearModal.classList.add('hidden');
+        // UI Binding
+        Elements.savePriceBtn.addEventListener('click', saveFuelPrice);
+        Elements.amountPaidInput.addEventListener('input', updateLitersPurchased);
+        Elements.saveTripBtn.addEventListener('click', saveTrip);
+        Elements.exportBtn.addEventListener('click', exportToCSV);
+        Elements.installPWABtn.addEventListener('click', promptInstallGuidance);
+        Elements.clearDataBtn.addEventListener('click', clearAllData);
+        
+        Elements.alertCloseBtn.addEventListener('click', hideAlert);
+        Elements.alertModal.addEventListener('click', (e) => {
+            if (e.target === Elements.alertModal) hideAlert();
+        });
 
-            // Show confirmation modal
-            Elements.confirmClearModal.classList.remove('hidden');
-            Elements.confirmClearModal.classList.add('flex');
-        }
-
-
-        // --- EVENT LISTENERS & INITIALIZATION ---
-
-        function initApp() {
-            renderInitialState();
-            
-            // PWA Setup: Capture the install prompt event
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                console.log('beforeinstallprompt fired and captured.');
-            });
-
-            // Input Listeners
-            Elements.savePriceBtn.addEventListener('click', saveFuelPrice);
-            Elements.amountPaidInput.addEventListener('input', updateLitersPurchased);
-            Elements.saveTripBtn.addEventListener('click', saveTrip);
-
-            // Action Listeners
-            Elements.exportBtn.addEventListener('click', exportToCSV);
-            Elements.installPWABtn.addEventListener('click', promptInstallGuidance);
-            Elements.clearDataBtn.addEventListener('click', clearAllData);
-            
-            // Modal Listeners
-            Elements.alertCloseBtn.addEventListener('click', hideAlert);
-            Elements.alertModal.addEventListener('click', (e) => {
-                if (e.target === Elements.alertModal) {
-                    hideAlert();
-                }
-            });
-
-            // NEW: Edit Modal Listeners
-            Elements.updateEditBtn.addEventListener('click', updateEditedTrip);
-            Elements.cancelEditBtn.addEventListener('click', () => Elements.editModal.classList.add('hidden'));
-            Elements.editModal.addEventListener('click', (e) => {
-                if (e.target === Elements.editModal) {
-                    Elements.editModal.classList.add('hidden');
-                }
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', initApp);
+        Elements.updateEditBtn.addEventListener('click', updateEditedTrip);
+        Elements.cancelEditBtn.addEventListener('click', () => Elements.editModal.classList.add('hidden'));
+        Elements.editModal.addEventListener('click', (e) => {
+            if (e.target === Elements.editModal) Elements.editModal.classList.add('hidden');
+        });
     </script>
 </body>
 </html>
