@@ -332,6 +332,10 @@
         const db = getFirestore(app);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
+        // --- GOOGLE SHEETS INTEGRATION ---
+        // PASTE YOUR DEPLOYED WEB APP URL HERE
+        const GOOGLE_SHEETS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTjdpGeWhrBC2Am3tyHJgPUM4EgpglEVJJsUa7G5TZu29GQVpMNQa4PObExg_ipSLHxQ/exec'; 
+
         // --- STATE & VARS ---
         let deferredPrompt; 
         let mileageChartInstance = null;
@@ -499,6 +503,26 @@
             });
         }
 
+        // NEW FUNCTION: Send data to Google Apps Script
+        async function sendToGoogleSheets(tripData) {
+            if (!GOOGLE_SHEETS_SCRIPT_URL || GOOGLE_SHEETS_SCRIPT_URL.includes('PASTE_YOUR')) {
+                console.warn("Google Sheets Sync Skipped: URL not set.");
+                return;
+            }
+
+            try {
+                const response = await fetch(GOOGLE_SHEETS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(tripData),
+                    mode: 'no-cors', // Required for Google Apps Script web apps
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                console.log("Sent to Google Sheets.");
+            } catch (error) {
+                console.error("Google Sheets Sync Failed:", error);
+            }
+        }
+
         async function saveFuelPrice() {
             if (!currentUser) return;
             const price = parseFloat(Elements.fuelPriceInput.value);
@@ -558,6 +582,7 @@
             Elements.tripLoading.classList.remove('hidden');
 
             try {
+                // 1. Save to Firestore
                 const tripsRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'trips');
                 await addDoc(tripsRef, {
                     date: inputDate,
@@ -566,6 +591,30 @@
                     liters: liters,
                     createdAt: new Date().toISOString()
                 });
+
+                // 2. Prepare and Send to Google Sheets
+                // We need to calculate derived stats (Distance/Mileage) locally for the Sheets payload
+                // because the server script expects them.
+                let distance = 0;
+                let mileage = 0;
+                if (currentTrips.length > 0) {
+                    // currentTrips[0] is the PREVIOUS highest odo (before this new one triggers a re-fetch)
+                    const lastOdo = currentTrips[0].odo; 
+                    distance = currentOdo - lastOdo;
+                    mileage = distance / liters;
+                }
+
+                const googleSheetsPayload = {
+                    date: inputDate,
+                    odo: currentOdo,
+                    amount: amountPaid,
+                    liters: liters,
+                    distance: distance,
+                    mileage: mileage
+                };
+                
+                // Fire and forget (don't await to keep UI snappy)
+                sendToGoogleSheets(googleSheetsPayload);
 
                 // Clear Form
                 Elements.odoReadingInput.value = '';
