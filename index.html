@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuel Mileage Tracker v2</title>
+    <title>Fuel Mileage Tracker v2.5 (Personal DB)</title>
     <link rel="icon" href="assets/favicon.ico">
     <!-- PWA & Icon Setup START -->
     <meta name="theme-color" content="#4F46E5">
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzQwMzBiOCIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMGMwIDUuNTIzLTQuNDc3IDEwLTEwIDEwUzIgMTcuNTIzIDIgMTJhMTAgMTAgMCAwMS02IDMuNTE4bDYuMDI2LTkuNjUyQzcuNTc4IDMuMTI1IDkuNjI3IDIgMTIgMnptLTIuNjMzIDEwLjczN2MtLjY3Ni4zMTctMS4yMTMtLjE0My0xLjAxLS44NjlMNy40NSAzLjI2NGMuMjAzLS43MjcuOTgtMS4wODUgMS43MDYtLjg4M2wxLjU1OC40MzJjLS45NDQuNjgyLTEuNjUzIDEuNTEyLTEuNjUzIDIuMzQ5LS4wMDEuMjg1LjA1NS41NTguMTU5LjgwN2wuODkxIDEuMjM1Yy0uOTgzLjU4NS0xLjY0NyAxLjk3Mi0xLjY0NyAzLjUzNCAwIC4yODkuMDYzLjU1OC4xNzYuODA4bC0uODQyLjU1NyAyLjM0NSAyLjkxNi40NjctLjM3djIuOTIyaDJ2LTIuOTIybC40NjcuMzY5IDIuMzQ1LTIuOTE2LS44NDItLjU1N2MuMTEzLS4yNS4xNzYtLjUxOS4xNzYtLjgwOCAwLTEuNTYyLS42NjQtMi45NDktMS42NDctMy41MzVsLjg5MS0xLjIzNWMuMTA0LS4yNDkuMTU5LS41Mi4xNTktLjgwNyAwLS44MzctLjcxLTEuNjY3LTEuNjU1LTIuMzQ5bDEuNTU9LS40MzJjLjczLS4yMDEgMS41MDktLjE2NyAxLjcxMS41NjJsLS43MDMgMi41NTljLjIwMy43MjYtLjMyOCAxLjE4Ni0xLjAxLjg2OWwtLjQzMi0uNDEzYy0uMTg4LS4xOC0uMzM5LS4zMTQtLjQ1NC0uNDQ1LS42NjkuNDY4LTEuMjI3LjcyNy0xLjU1OC43MjctLjA3IDAtLjE0LS4wMjQtLjIwNC0uMDc0bC0uNDczLS4zODItLjQ4LjM4Mi0uNDctLjA2N3oiLz48L3N2Zy4+" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzQwMzBiOCIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMGMwIDUuNTIzLTQuNDc3IDEwLTEwIDEwUzIgMTcuNTIzIDIgMTJhMTAgMTAgMCAwMS02IDMuNTE4bDYuMDI2LTkuNjUyQzcuNTc4IDMuMTI1IDkuNjI3IDIgMTIgMnptLTIuNjMzIDEwLjczN2MtLjY3Ni4zMTctMS4yMTMtLjE0My0xLjAxLS44NjlMNy40NSAzLjI2NGMuMjAzLS43MjcuOTgtMS4wODUgMS43MDYtLjg4M2wxLjU1OC40MzJjLS45NDQuNjgyLTEuNjUzIDEuNTEyLTEuNjUzIDIuMzQ5LS4wMDEuMjg1LjA1NS41NTguMTU5LjgwN2wuODkxIDEuMjM1Yy0uOTgzLjU4NS0xLjY0NyAxLjk3Mi0xLjY0NyAzLjUzNCAwIC4yODkuMDYzLjU1OC4xNzYuODA4bC0uODQyLjU1NyAyLjM0NSAyLjkxNi40NjctLjM3djIuOTIyaDJ2LTIuOTIybC40NjcuMzY5IDIuMzQ1LTIuOTE2LS44NDItLjU1N2MuMTEzLS4yNS4xNzYtLjUxOS4xNzYtLjgwOCAwLTEuNTYyLS42NjQtMi45NDktMS42NDctMy41MzVsLjg5MS0xLjIzNWMuMTA0LS4yNDkuMTU5LS41Mi4xNTktLjgwNyAwLS44MzctLjcxLTEuNjY3LTEuNjU1LTIuMzQ5bDEuNTU9LS40MzJjLjczLS4yMDEgMS41MDktLjE2NyAxLjcxMS41NjJsLS43MDMgMi41NTljLjIwMy43MjYtLjMyOCAxLjE4Ni0xLjAxLjg2OWwtLjQzMi0uNDEzYy0uMTg4LS4xOC0uMzM5LS4zMTQtLjQ1NC0uNDQ1LS42NjkuNDY4LTEuMjI3LjcyNy0xLjU1OC43MjctLjA3IDAtLjE0LS4wMjQtLjIwNC0uMDc0bC0uNDczLS4zODItLjQ4LjM4Mi0uNDctLjA2N3oiLz48L3N2Zy4+" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzQwMzBiOCIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMGMwIDUuNTIzLTQuNDc3IDEwLTEwIDEwUzIgMTcuNTIzIDIgMTJhMTAgMTAgMCAwMS02IDMuNTE4bDYuMDI2LTkuNjUyQzcuNTc4IDMuMTI1IDkuNjI3IDIgMTIgMnptLTIuNjMzIDEwLjczN2MtLjY3Ni4zMTctMS4yMTMtLjE0My0xLjAxLS44NjlMNy40NSAzLjI2NGMuMjAzLS43MjcuOTgtMS4wODUgMS43MDYtLjg4M2wxLjU1OC40MzJjLS45NDQuNjgyLTEuNjUzIDEuNTEyLTEuNjUzIDIuMzQ9LS4wMDEuMjg1LjA1NS41NTguMTU5LjgwN2wuODkxIDEuMjM1Yy0uOTgzLjU4NS0xLjY0NyAxLjk3Mi0xLjY0NyAzLjUzNCAwIC4yODkuMDYzLjU1OC4xNzYuODA4bC0uODQyLjU1NyAyLjM0NSAyLjkxNi40NjctLjM3djIuOTIyaDJ2LTIuOTIybC40NjcuMzY5IDIuMzQ1LTIuOTE2LS44NDItLjU1N2MuMTEzLS4yNS4xNzYtLjUxOS4xNzYtLjgwOCAwLTEuNTYyLS42NjQtMi45NDktMS42NDctMy41MzVsLjg5MS0xLjIzNWMuMTA0LS4yNDkuMTU5LS41Mi4xNTktLjgwNyAwLS44MzctLjcxLTEuNjY3LTEuNjU1LTIuMzQ5bDEuNTU9LS40MzJjLjczLS4yMDEgMS41MDktLjE2NyAxLjcxMS41NjJsLS43MDMgMi41NTljLjIwMy43MjYtLjMyOCAxLjE4Ni0xLjAxLjg2OWwtLjQzMi0uNDEzYy0uMTg4LS4xOC0uMzM5LS4zMTQtLjQ1NC0uNDQ1LS42NjkuNDY4LTEuMjI3LjcyNy0xLjU1OC43MjctLjA3IDAtLjE0LS4wMjQtLjIwNC0uMDc0bC0uNDczLS4zODItLjQ4LjM4Mi0uNDctLjA2N3oiLz48L3N2Zy4+" />
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1pbGVhZ2UgTWFuYWdlciIsCiAgInNob3J0X25hbWUiOiAiRnVlbCBMb2ciLAogICJzdGFydF91cmwiOiAiLi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGM0Y0RjYiLAogICJ0aGVtZV9jb2xvciI6ICIjNEY0NkU1IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSFN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzQwMzBiOCIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMGMwIDUuNTIzLTQuNDc3IDEwLTEwIDEwUzIgMTcuNTIzIDIgMTJhMTAgMTAgMCAwMS02IDMuNTE4bDYuMDI2LTkuNjUyQzcuNTc4IDMuMTI1IDkuNjI3IDIgMTIgMnptLTIuNjMzIDEwLjczN2MtLjY3Ni4zMTctMS4yMTMtLjE0My0xLjAxLS44NjlMNy40NSAzLjI2NGMuMjAzLS43MjcuOTgtMS4wODUgMS43MDYtLjg4M2wxLjU1OC40MzJjLS45NDQuNjgyLTEuNjUzIDEuNTEyLTEuNjUzIDIuMzQ5LS4wMDEuMjg1LjA1NS41NTguMTU5LjgwN2wuODkxIDEuMjM1Yy0uOTgzLjU4NS0xLjY0NyAxLjk3Mi0xLjY0NyAzLjUzNCAwIC4yODkuMDYzLjU1OC4xNzYuODA4bC0uODQyLjU1NyAyLjM0NSAyLjkxNi40NjctLjM3djIuOTIyaDJ2LTIuOTIybC40NjcuMzY5IDIuMzQ1LTIuOTE2LS44NDItLjU1N2MuMTEzLS4yNS4xNzYtLjUxOS4xNzYtLjgwOCAwLTEuNTYyLS42NjQtMi45NDktMS42NDctMy41MzVsLjg5MS0xLjIzNWMuMTA0LS4yNDkuMTU5LS41Mi4xNTktLjgwNyAwLS44MzctLjcxLTEuNjY3LTEuNjU1LTIuMzQ5bDEuNTU9LS40MzJjLjczLS4yMDEgMS41MDktLjE2NyAxLjcxMS41NjJsLS43MDMgMi41NTljLjIwMy43MjYtLjMyOCAxLjE4Ni0xLjAxLjg2OWwtLjQzMi0uNDEzYy0uMTg4LS4xOC0uMzM5LS4zMTQtLjQ1NC0uNDQ1LS42NjkuNDY4LTEuMjI3LjcyNy0xLjU1OC43MjctLjA3IDAtLjE0LS4wMjQtLjIwNC0uMDc0bC0uNDczLS4zODItLjQ4LjM4Mi0uNDctLjA2N3oiLz48L3N2Zy4+" />
     <!-- PWA & Icon Setup END -->
 
@@ -64,7 +64,13 @@
         <!-- Header -->
         <header class="text-center mb-8">
             <h1 class="text-4xl font-extrabold text-primary">Mileage Manager</h1>
-            <p class="mt-2 text-gray-600">Public Shared Fuel Tracker</p>
+            <p class="mt-2 text-gray-600">Personal Fuel Tracker (fuel-tracker-92290)</p>
+            <div id="offline-badge" class="hidden justify-center mt-2 cursor-pointer" onclick="location.reload()">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 hover:bg-red-200 transition">
+                    <svg class="mr-1.5 h-2 w-2 text-red-600" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" /></svg>
+                    Permission Denied - Click to Retry
+                </span>
+            </div>
         </header>
 
         <!-- Statistics Overview -->
@@ -96,7 +102,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.244-4.243a8 8 0111.314 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        Current Fuel Price (Shared)
+                        Current Fuel Price (Personal)
                     </h2>
                     <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                         <input type="number" id="fuel-price" placeholder="e.g., 105.50" step="0.01" class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" />
@@ -134,7 +140,7 @@
                                 <p id="last-odo-display" class="mt-1 text-xs text-gray-500 text-right"></p>
                             </div>
                         </div>
-                         
+                          
                         <!-- Amount Paid Input -->
                         <div>
                             <label for="amount-paid" class="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Amount Paid</label>
@@ -241,7 +247,7 @@
             
             <div class="mt-4 flex justify-end">
                  <button id="clear-data-btn" class="text-xs text-red-400 hover:text-red-600 underline">
-                    Clear Shared Database
+                    Clear Data
                 </button>
             </div>
         </div>
@@ -315,6 +321,10 @@
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
 
         // --- FIREBASE CONFIG ---
+        // FORCED PERSONAL CONFIG:
+        // We strictly use the User's Personal Config ('fuel-tracker-92290') to retrieve their specific data.
+        // We DO NOT check for environment variables, ensuring we always hit the personal project.
+        
         const firebaseConfig = {
             apiKey: "AIzaSyDPNl12gILSemEuQikoJNR8fzNSVkNL640",
             authDomain: "fuel-tracker-92290.firebaseapp.com",
@@ -325,9 +335,11 @@
             measurementId: "G-EJZXT5BXW3"
         };
 
+        const isCustomConfig = true; // Flag to determine path structure
+        const shouldUseCustomToken = false; // We use Anonymous auth for personal projects
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -339,12 +351,14 @@
         let deferredPrompt; 
         let mileageChartInstance = null;
         let currentUser = null;
-        let currentTrips = []; // Local mirror of Firestore data
+        let currentTrips = []; 
         let currentFuelPrice = 0;
+        
+        // --- OFFLINE MODE STATE ---
+        let useLocalStorage = false;
 
         // --- DOM ELEMENTS ---
         const Elements = { 
-            // Inputs
             fuelPriceInput: document.getElementById('fuel-price'),
             savePriceBtn: document.getElementById('save-price-btn'),
             currentPriceDisplay: document.getElementById('current-price-display'),
@@ -354,28 +368,20 @@
             saveTripBtn: document.getElementById('save-trip-btn'),
             lastOdoDisplay: document.getElementById('last-odo-display'),
             litersDisplay: document.getElementById('liters-purchased-display'),
-            
-            // Results & Stats
             resultDistance: document.getElementById('result-distance'),
             resultMileage: document.getElementById('result-mileage'),
             firstTripMessage: document.getElementById('first-trip-message'),
             statTotalCost: document.getElementById('stat-total-cost'),
             statAvgMileage: document.getElementById('stat-avg-mileage'),
             statTotalDistance: document.getElementById('stat-total-distance'),
-
-            // UI Components
             tripLogBody: document.getElementById('trip-log-body'),
             exportBtn: document.getElementById('export-btn'),
             installPWABtn: document.getElementById('install-pwa-btn'),
             clearDataBtn: document.getElementById('clear-data-btn'),
             noDataMessage: document.getElementById('no-data-message'),
             userIdDisplay: document.getElementById('user-id-display'),
-            
-            // Loading
             tripLoading: document.getElementById('trip-loading'),
             logLoading: document.getElementById('log-loading'),
-
-            // Modals
             alertModal: document.getElementById('alert-modal'),
             alertTitle: document.getElementById('alert-title'),
             alertMessage: document.getElementById('alert-message'),
@@ -383,8 +389,6 @@
             confirmClearModal: document.getElementById('confirm-clear-modal'),
             confirmYesBtn: document.getElementById('confirm-yes-btn'),
             confirmNoBtn: document.getElementById('confirm-no-btn'),
-            
-            // Edit Modal
             editModal: document.getElementById('edit-trip-modal'),
             editTripId: document.getElementById('edit-trip-id'),
             editDate: document.getElementById('edit-date'),
@@ -392,22 +396,32 @@
             editAmount: document.getElementById('edit-amount-paid'),
             updateEditBtn: document.getElementById('update-edit-btn'),
             cancelEditBtn: document.getElementById('cancel-edit-btn'),
+            offlineBadge: document.getElementById('offline-badge'),
         };
 
         // --- AUTH & INIT ---
         const initAuth = async () => {
-            // FORCE ANONYMOUS AUTH ONLY to avoid token mismatch with environment token
-            await signInAnonymously(auth).catch(err => {
+            const statusDisplay = Elements.userIdDisplay;
+            statusDisplay.textContent = 'Authenticating...';
+
+            try {
+                // FORCE ANONYMOUS AUTH ONLY
+                await signInAnonymously(auth);
+                statusDisplay.textContent = 'Connected';
+            } catch (err) {
                 console.error("Auth failed:", err);
-                showAlert("Auth Error", "Could not sign in anonymously. Please check Firebase Console > Auth > Sign-in method.");
-            });
+                // IF AUTH FAILS, WE SWITCH TO LOCAL STORAGE
+                enableLocalStorageMode("Authentication Failed. Switched to Offline Mode.");
+            }
         };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
                 Elements.userIdDisplay.textContent = `ID: ${user.uid.slice(0,6)}...`;
-                initDataListeners();
+                Elements.userIdDisplay.classList.remove('text-red-500', 'font-bold');
+                Elements.userIdDisplay.classList.add('text-green-600');
+                if(!useLocalStorage) initDataListeners();
             } else {
                 Elements.userIdDisplay.textContent = 'Disconnected';
             }
@@ -415,15 +429,44 @@
 
         initAuth();
 
-        // --- FIRESTORE LISTENERS (UPDATED FOR PUBLIC DATA) ---
-        function initDataListeners() {
-            if (!currentUser) return;
-            // NOTE: We now use 'public' path instead of 'users/{userId}' to share data across devices.
-            // To ensure this works, Firestore Security Rules must allow read/write to this path.
+        // --- DATA LAYER (Firestore + LocalStorage) ---
 
-            // 1. Listen to Settings (Price) - PUBLIC
-            // Path: /artifacts/{appId}/public/data/settings/config (Even # of segments: 6)
-            const settingsRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config');
+        function enableLocalStorageMode(reason) {
+            if(useLocalStorage) return; // Already enabled
+            console.log("Enabling Local Storage Mode: " + reason);
+            useLocalStorage = true;
+            Elements.offlineBadge.classList.remove('hidden');
+            Elements.offlineBadge.classList.add('flex');
+            Elements.userIdDisplay.textContent = "Offline Mode";
+            Elements.userIdDisplay.classList.add('text-yellow-600');
+            
+            if(reason) showAlert("Offline Mode", reason + "<br><br>Data will be saved to your browser instead of the cloud.");
+            
+            // Init listeners for local storage
+            initLocalDataListeners();
+        }
+
+        // --- PATH CONFIGURATION ---
+        // RESTORED ORIGINAL PATH STRUCTURE
+        // We use the specific '/artifacts/...' path because that is where the user's 
+        // original data was saved in previous versions/sessions.
+        
+        function getCollectionRef(collectionName) {
+            // Always use the deep path to ensure we find the "Old Data"
+            // Path: /artifacts/{appId}/public/data/{collectionName}
+            return collection(db, 'artifacts', appId, 'public', 'data', collectionName);
+        }
+
+        function getDocRef(collectionName, docId) {
+            // Path: /artifacts/{appId}/public/data/{collectionName}/{docId}
+            return doc(db, 'artifacts', appId, 'public', 'data', collectionName, docId);
+        }
+
+        // FIREBASE LISTENERS
+        function initDataListeners() {
+            if (!currentUser || useLocalStorage) return;
+
+            const settingsRef = getDocRef('settings', 'config');
             onSnapshot(settingsRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
@@ -432,60 +475,75 @@
                         Elements.fuelPriceInput.value = currentFuelPrice.toFixed(2);
                         Elements.currentPriceDisplay.textContent = `Price: ${currentFuelPrice.toFixed(2)} / L`;
                     }
-                } else {
-                    Elements.currentPriceDisplay.textContent = 'Please set price.';
                 }
+            }, (error) => {
+                // Ignore settings error
             });
 
-            // 2. Listen to Trips - PUBLIC
-            // Path: /artifacts/{appId}/public/data/trips
-            const tripsRef = collection(db, 'artifacts', appId, 'public', 'data', 'trips');
-            
+            const tripsRef = getCollectionRef('trips');
             onSnapshot(tripsRef, (snapshot) => {
-                // Fetch and sort in memory (Rule 2: No complex queries)
                 currentTrips = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
-                
-                // Sort Descending by Odometer for list
-                currentTrips.sort((a, b) => b.odo - a.odo);
-
-                // Recalculate derived data (Distance/Mileage) dynamically based on current set
-                recalculateDerivedData(currentTrips);
-                
-                renderTripLog(currentTrips);
-                updateStats(currentTrips);
-                updateChart(currentTrips);
-                updateLastOdoDisplay();
-                
-                Elements.logLoading.classList.add('hidden'); // Hide loading spinner
+                refreshUI(currentTrips);
+                Elements.logLoading.classList.add('hidden');
             }, (error) => {
                 console.error("Error fetching trips:", error);
-                showAlert("Sync Error", "Could not fetch data.");
+                if (error.code === 'permission-denied') {
+                    // AUTO FAILOVER
+                    enableLocalStorageMode("Database Permission Denied (Expired Rules).");
+                } else {
+                    Elements.logLoading.innerHTML = `<span class="text-red-500 font-bold text-center px-4">Sync Error: ${error.message}</span>`;
+                }
             });
         }
 
-        // --- LOGIC FUNCTIONS ---
+        // LOCAL STORAGE LISTENERS (Simulation)
+        function initLocalDataListeners() {
+            Elements.logLoading.classList.add('hidden');
+            
+            // Load Price
+            const savedPrice = localStorage.getItem('fuel_price');
+            if (savedPrice) {
+                currentFuelPrice = parseFloat(savedPrice);
+                Elements.fuelPriceInput.value = currentFuelPrice.toFixed(2);
+                Elements.currentPriceDisplay.textContent = `Price: ${currentFuelPrice.toFixed(2)} / L`;
+            }
+
+            // Load Trips
+            const savedTrips = localStorage.getItem('fuel_trips');
+            if(savedTrips) {
+                currentTrips = JSON.parse(savedTrips);
+            } else {
+                currentTrips = [];
+            }
+            refreshUI(currentTrips);
+        }
+
+        // --- SHARED LOGIC ---
+
+        function refreshUI(trips) {
+            // Sort
+            trips.sort((a, b) => b.odo - a.odo);
+            recalculateDerivedData(trips);
+            
+            renderTripLog(trips);
+            updateStats(trips);
+            updateChart(trips);
+            updateLastOdoDisplay();
+        }
         
         function updateLastOdoDisplay() {
             if (currentTrips.length > 0) {
-                // Since currentTrips is sorted Descending, index 0 is max
                 Elements.lastOdoDisplay.textContent = `Last: ${currentTrips[0].odo} km`;
             } else {
                 Elements.lastOdoDisplay.textContent = 'No history.';
             }
         }
 
-        // Re-runs calculation logic on the entire array to ensure consistency if a middle entry is deleted
         function recalculateDerivedData(trips) {
-            // Sort Ascending for calculation
             const sortedAsc = [...trips].sort((a, b) => a.odo - b.odo);
-            
             for (let i = 0; i < sortedAsc.length; i++) {
                 const current = sortedAsc[i];
                 const prev = sortedAsc[i-1];
-                
-                // Use the stored liters or calculate if missing. 
-                // Note: We don't update Firestore here, just local display values
-                
                 if (prev) {
                     current.calcDistance = current.odo - prev.odo;
                     current.calcMileage = current.calcDistance / current.liters;
@@ -494,8 +552,6 @@
                     current.calcMileage = 0;
                 }
             }
-            
-            // Map calculations back to the main descending array
             trips.forEach(t => {
                 const calced = sortedAsc.find(x => x.id === t.id);
                 t.distance = calced.calcDistance;
@@ -503,28 +559,7 @@
             });
         }
 
-        // NEW FUNCTION: Send data to Google Apps Script
-        async function sendToGoogleSheets(tripData) {
-            if (!GOOGLE_SHEETS_SCRIPT_URL || GOOGLE_SHEETS_SCRIPT_URL.includes('PASTE_YOUR')) {
-                console.warn("Google Sheets Sync Skipped: URL not set.");
-                return;
-            }
-
-            try {
-                const response = await fetch(GOOGLE_SHEETS_SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(tripData),
-                    mode: 'no-cors', // Required for Google Apps Script web apps
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                console.log("Sent to Google Sheets.");
-            } catch (error) {
-                console.error("Google Sheets Sync Failed:", error);
-            }
-        }
-
         async function saveFuelPrice() {
-            if (!currentUser) return;
             const price = parseFloat(Elements.fuelPriceInput.value);
             if (isNaN(price) || price <= 0) return showAlert("Error", "Enter a valid price.");
 
@@ -532,9 +567,14 @@
             btn.textContent = "Saving...";
             
             try {
-                // PUBLIC PATH - Corrected to point to document 'config' inside 'settings' collection
-                const settingsRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config');
-                await setDoc(settingsRef, { price: price }, { merge: true });
+                if(useLocalStorage) {
+                    localStorage.setItem('fuel_price', price);
+                    currentFuelPrice = price;
+                    Elements.currentPriceDisplay.textContent = `Price: ${price.toFixed(2)} / L`;
+                } else {
+                    const settingsRef = getDocRef('settings', 'config');
+                    await setDoc(settingsRef, { price: price }, { merge: true });
+                }
                 
                 btn.textContent = "Saved!";
                 btn.classList.add('bg-green-500');
@@ -560,58 +600,41 @@
         }
 
         async function saveTrip() {
-            if (!currentUser) return;
-            
             const currentOdo = parseFloat(Elements.odoReadingInput.value);
             const amountPaid = parseFloat(Elements.amountPaidInput.value);
             const inputDate = Elements.tripDateInput.value;
             
-            // Validation
             if (currentFuelPrice <= 0) return showAlert("Missing Price", "Please save fuel price first.");
             if (!inputDate) return showAlert("Missing Date", "Select date.");
             if (isNaN(currentOdo) || currentOdo <= 0) return showAlert("Error", "Invalid odometer reading.");
             if (isNaN(amountPaid) || amountPaid <= 0) return showAlert("Error", "Invalid amount.");
 
-            // Check against last Odo
             if (currentTrips.length > 0) {
-                const lastOdo = currentTrips[0].odo; // Sorted Descending
+                const lastOdo = currentTrips[0].odo; 
                 if (currentOdo <= lastOdo) return showAlert("Error", `New odometer must be > ${lastOdo}.`);
             }
 
             const liters = amountPaid / currentFuelPrice;
+            const newTrip = {
+                date: inputDate,
+                odo: currentOdo,
+                amount: amountPaid,
+                liters: liters,
+                createdAt: new Date().toISOString()
+            };
 
             Elements.tripLoading.classList.remove('hidden');
 
             try {
-                // 1. Save to Firestore - PUBLIC PATH
-                const tripsRef = collection(db, 'artifacts', appId, 'public', 'data', 'trips');
-                await addDoc(tripsRef, {
-                    date: inputDate,
-                    odo: currentOdo,
-                    amount: amountPaid,
-                    liters: liters,
-                    createdAt: new Date().toISOString()
-                });
-
-                // 2. Prepare and Send to Google Sheets
-                let distance = 0;
-                let mileage = 0;
-                if (currentTrips.length > 0) {
-                    const lastOdo = currentTrips[0].odo; 
-                    distance = currentOdo - lastOdo;
-                    mileage = distance / liters;
+                if(useLocalStorage) {
+                    newTrip.id = 'local_' + Date.now();
+                    currentTrips.push(newTrip);
+                    localStorage.setItem('fuel_trips', JSON.stringify(currentTrips));
+                    refreshUI(currentTrips);
+                } else {
+                    const tripsRef = getCollectionRef('trips');
+                    await addDoc(tripsRef, newTrip);
                 }
-
-                const googleSheetsPayload = {
-                    date: inputDate,
-                    odo: currentOdo,
-                    amount: amountPaid,
-                    liters: liters,
-                    distance: distance,
-                    mileage: mileage
-                };
-                
-                sendToGoogleSheets(googleSheetsPayload);
 
                 // Clear Form
                 Elements.odoReadingInput.value = '';
@@ -627,8 +650,6 @@
             }
         }
 
-        // --- RENDER & STATS ---
-
         function renderTripLog(trips) {
             Elements.tripLogBody.innerHTML = ''; 
 
@@ -642,7 +663,6 @@
 
             Elements.noDataMessage.classList.add('hidden');
             
-            // Display latest calculated stats in the top card
             if (trips.length > 0 && trips[0].distance >= 0) {
                 Elements.resultDistance.textContent = trips[0].distance.toFixed(0);
                 Elements.resultMileage.textContent = trips[0].mileage.toFixed(2);
@@ -659,7 +679,6 @@
                 let dateDisplay = trip.date;
                 try {
                     const d = new Date(trip.date);
-                    // Adjust for timezone offset to prevent date shift
                     const userTimezoneOffset = d.getTimezoneOffset() * 60000;
                     const adjustedDate = new Date(d.getTime() + userTimezoneOffset);
                     dateDisplay = `${adjustedDate.getDate()}/${adjustedDate.getMonth()+1}/${adjustedDate.getFullYear().toString().substr(-2)}`;
@@ -680,7 +699,6 @@
                     cell.className = 'px-4 py-3 whitespace-nowrap text-gray-700';
                 });
                 
-                // Actions
                 const actionCell = row.insertCell();
                 actionCell.className = 'px-4 py-3 whitespace-nowrap text-right font-medium space-x-2';
 
@@ -705,7 +723,6 @@
                 Elements.statTotalDistance.textContent = '0';
                 return;
             }
-
             const totalCost = trips.reduce((sum, trip) => sum + trip.amount, 0);
             const totalDistance = trips.reduce((sum, trip) => sum + (trip.distance || 0), 0);
             const totalLiters = trips.reduce((sum, trip) => sum + trip.liters, 0);
@@ -718,11 +735,8 @@
 
         function updateChart(trips) {
             const ctx = document.getElementById('mileageChart').getContext('2d');
-            
-            // Sort Chronologically for Chart
             const chartData = [...trips].sort((a, b) => new Date(a.date) - new Date(b.date));
             const validData = chartData.filter(d => d.mileage > 0 && d.mileage < 100); 
-
             const labels = validData.map(d => {
                 const date = new Date(d.date);
                 return `${date.getDate()}/${date.getMonth()+1}`;
@@ -761,15 +775,19 @@
             });
         }
 
-        // --- EDIT/DELETE OPERATIONS ---
-
         function confirmDeleteTrip(id) {
             Elements.confirmClearModal.querySelector('h3').textContent = 'Confirm Delete';
             Elements.confirmClearModal.querySelector('p').innerHTML = 'Delete this trip entry?';
             Elements.confirmYesBtn.onclick = async () => {
                 try {
-                    // PUBLIC PATH
-                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'trips', id));
+                    if(useLocalStorage) {
+                        currentTrips = currentTrips.filter(t => t.id !== id);
+                        localStorage.setItem('fuel_trips', JSON.stringify(currentTrips));
+                        refreshUI(currentTrips);
+                    } else {
+                        const tripsRef = getCollectionRef('trips');
+                        await deleteDoc(doc(tripsRef, id));
+                    }
                     showAlert("Deleted", "Trip removed.");
                 } catch(e) {
                     showAlert("Error", "Could not delete trip.");
@@ -784,37 +802,36 @@
         function openEditModal(id) {
             const trip = currentTrips.find(t => t.id === id);
             if (!trip) return;
-
             Elements.editTripId.value = trip.id;
             Elements.editDate.value = trip.date;
             Elements.editOdo.value = trip.odo.toFixed(0);
             Elements.editAmount.value = trip.amount.toFixed(2);
-
             Elements.editModal.classList.remove('hidden');
             Elements.editModal.classList.add('flex');
         }
 
         async function updateEditedTrip() {
-            if (!currentUser) return;
             const id = Elements.editTripId.value;
             const newDate = Elements.editDate.value;
             const newOdo = parseFloat(Elements.editOdo.value);
             const newAmount = parseFloat(Elements.editAmount.value);
             
             if (isNaN(newOdo) || newOdo <= 0 || isNaN(newAmount) || newAmount <= 0) return showAlert("Error", "Invalid values.");
-            
             if(currentFuelPrice <= 0) return showAlert("Error", "Fuel price missing.");
             const newLiters = newAmount / currentFuelPrice;
 
             try {
-                // PUBLIC PATH
-                const tripRef = doc(db, 'artifacts', appId, 'public', 'data', 'trips', id);
-                await updateDoc(tripRef, {
-                    date: newDate,
-                    odo: newOdo,
-                    amount: newAmount,
-                    liters: newLiters
-                });
+                if(useLocalStorage) {
+                    const idx = currentTrips.findIndex(t => t.id === id);
+                    if(idx !== -1) {
+                        currentTrips[idx] = { ...currentTrips[idx], date: newDate, odo: newOdo, amount: newAmount, liters: newLiters };
+                        localStorage.setItem('fuel_trips', JSON.stringify(currentTrips));
+                        refreshUI(currentTrips);
+                    }
+                } else {
+                    const tripRef = getDocRef('trips', id);
+                    await updateDoc(tripRef, { date: newDate, odo: newOdo, amount: newAmount, liters: newLiters });
+                }
                 
                 Elements.editModal.classList.add('hidden');
                 showAlert("Updated", "Trip updated.");
@@ -824,21 +841,23 @@
         }
 
         async function clearAllData() {
-            if (!currentUser) return;
             Elements.confirmClearModal.querySelector('h3').textContent = 'Clear All Data?';
-            Elements.confirmClearModal.querySelector('p').innerHTML = 'This will permanently delete all logs from the public shared database.';
+            Elements.confirmClearModal.querySelector('p').innerHTML = 'This will permanently delete all logs.';
             
             Elements.confirmYesBtn.onclick = async () => {
                 Elements.confirmClearModal.classList.add('hidden');
                 Elements.logLoading.classList.remove('hidden');
                 try {
-                    // Firestore doesn't support "delete collection", so we must delete docs one by one
-                    // PUBLIC PATH
-                    const promises = currentTrips.map(t => 
-                        deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'trips', t.id))
-                    );
-                    await Promise.all(promises);
-                    showAlert("Cleared", "All data wiped from cloud.");
+                    if(useLocalStorage) {
+                        localStorage.removeItem('fuel_trips');
+                        currentTrips = [];
+                        refreshUI(currentTrips);
+                    } else {
+                        const tripsRef = getCollectionRef('trips');
+                        const promises = currentTrips.map(t => deleteDoc(doc(tripsRef, t.id)));
+                        await Promise.all(promises);
+                    }
+                    showAlert("Cleared", "All data wiped.");
                 } catch(e) {
                     showAlert("Error", "Partial failure clearing data.");
                 } finally {
@@ -846,7 +865,6 @@
                 }
             };
             Elements.confirmNoBtn.onclick = () => Elements.confirmClearModal.classList.add('hidden');
-
             Elements.confirmClearModal.classList.remove('hidden');
             Elements.confirmClearModal.classList.add('flex');
         }
@@ -884,12 +902,10 @@
 
         function exportToCSV() {
             if (currentTrips.length === 0) return showAlert("Failed", "No data to export.");
-
             let csv = 'Date,Odo,Distance,Amount,Liters,Mileage\n'; 
             currentTrips.forEach(trip => {
                 csv += `${trip.date},${trip.odo},${trip.distance},${trip.amount},${trip.liters},${trip.mileage}\n`;
             });
-
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
@@ -900,28 +916,21 @@
         }
 
         // --- INIT EVENT LISTENERS ---
-        // Set Default Date
         Elements.tripDateInput.value = new Date().toISOString().slice(0, 10);
-
-        // PWA
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
         });
-
-        // UI Binding
         Elements.savePriceBtn.addEventListener('click', saveFuelPrice);
         Elements.amountPaidInput.addEventListener('input', updateLitersPurchased);
         Elements.saveTripBtn.addEventListener('click', saveTrip);
         Elements.exportBtn.addEventListener('click', exportToCSV);
         Elements.installPWABtn.addEventListener('click', promptInstallGuidance);
         Elements.clearDataBtn.addEventListener('click', clearAllData);
-        
         Elements.alertCloseBtn.addEventListener('click', hideAlert);
         Elements.alertModal.addEventListener('click', (e) => {
             if (e.target === Elements.alertModal) hideAlert();
         });
-
         Elements.updateEditBtn.addEventListener('click', updateEditedTrip);
         Elements.cancelEditBtn.addEventListener('click', () => Elements.editModal.classList.add('hidden'));
         Elements.editModal.addEventListener('click', (e) => {
